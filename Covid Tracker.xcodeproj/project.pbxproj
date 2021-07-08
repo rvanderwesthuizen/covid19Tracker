@@ -13,6 +13,9 @@
 		C9A6FA032697488300896BF9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A6FA012697488300896BF9 /* Main.storyboard */; };
 		C9A6FA052697488700896BF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9A6FA042697488700896BF9 /* Assets.xcassets */; };
 		C9A6FA082697488700896BF9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A6FA062697488700896BF9 /* LaunchScreen.storyboard */; };
+		C9A6FA10269748F700896BF9 /* ApiCaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6FA0F269748F700896BF9 /* ApiCaller.swift */; };
+		C9A6FA132697492C00896BF9 /* CovidData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6FA122697492C00896BF9 /* CovidData.swift */; };
+		C9A6FA152697494300896BF9 /* CountriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6FA142697494300896BF9 /* CountriesModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		C9A6FA042697488700896BF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9A6FA072697488700896BF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9A6FA092697488700896BF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9A6FA0F269748F700896BF9 /* ApiCaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCaller.swift; sourceTree = "<group>"; };
+		C9A6FA122697492C00896BF9 /* CovidData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CovidData.swift; sourceTree = "<group>"; };
+		C9A6FA142697494300896BF9 /* CountriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,8 +69,19 @@
 				C9A6FA042697488700896BF9 /* Assets.xcassets */,
 				C9A6FA062697488700896BF9 /* LaunchScreen.storyboard */,
 				C9A6FA092697488700896BF9 /* Info.plist */,
+				C9A6FA112697491100896BF9 /* Model */,
 			);
 			path = "Covid Tracker";
+			sourceTree = "<group>";
+		};
+		C9A6FA112697491100896BF9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C9A6FA0F269748F700896BF9 /* ApiCaller.swift */,
+				C9A6FA122697492C00896BF9 /* CovidData.swift */,
+				C9A6FA142697494300896BF9 /* CountriesModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,8 +155,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9A6FA002697488300896BF9 /* ViewController.swift in Sources */,
+				C9A6FA132697492C00896BF9 /* CovidData.swift in Sources */,
 				C9A6F9FC2697488300896BF9 /* AppDelegate.swift in Sources */,
 				C9A6F9FE2697488300896BF9 /* SceneDelegate.swift in Sources */,
+				C9A6FA152697494300896BF9 /* CountriesModel.swift in Sources */,
+				C9A6FA10269748F700896BF9 /* ApiCaller.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
