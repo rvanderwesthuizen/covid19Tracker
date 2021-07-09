@@ -63,6 +63,29 @@ struct ApiCaller {
             task.resume()
         }
     }
+    
+    public func getWorldData(for scope: DataScope, completion: @escaping (Result<[WorldData], Error>) -> Void) {
+        let stringURL: String
+        switch scope {
+        case .world: stringURL = Constants.worldURL
+        case .country(let country): stringURL = "\(Constants.baseURLString)\(country.Slug)"
+        }
+        if let url = URL(string: stringURL) {
+            let session = URLSession(configuration: .default)
+            let task = session.dataTask(with: url) { data, _, error in
+                if let safeData = data {
+                    do {
+                        let result = try JSONDecoder().decode([WorldData].self, from: safeData)
+                        let data: [WorldData] = result
+                        completion(.success(data))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }
+            }
+            task.resume()
+        }
+    }
 }
 
 //MARK: - Models
@@ -82,12 +105,7 @@ struct CovidDataResult: Codable {
 //    let Date: Date
 //}
 
-struct NationalData: Codable {
-    let NewConfirmed: Int
+struct WorldData: Codable {
     let TotalConfirmed: Int
-    let NewDeaths: Int
-    let TotalDeaths: Int
-    let NewRecovered: Int
-    let TotalRecovered: Int
     let Date: String
 }

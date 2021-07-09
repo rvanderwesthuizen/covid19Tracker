@@ -11,6 +11,15 @@ import Charts
 class ViewController: UIViewController {
     private var apiCaller = ApiCaller()
     
+    private var worldData: [WorldData] = [] {
+        didSet{
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.createGraph()
+            }
+        }
+    }
+    
     private var data: [CovidDataResult] = [] {
         didSet{
             DispatchQueue.main.async {
@@ -70,13 +79,13 @@ class ViewController: UIViewController {
         xAxis.valueFormatter = IndexAxisValueFormatter(values: dates)
     }
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Covid Cases"
         createFilterButton()
         configureTable()
-        //        getData()
+        getWorldData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -121,6 +130,17 @@ class ViewController: UIViewController {
             switch result {
             case .success(let data):
                 self?.data = data
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func getWorldData() {
+        apiCaller.getWorldData(for: scope) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.worldData = data
             case .failure(let error):
                 print(error)
             }
