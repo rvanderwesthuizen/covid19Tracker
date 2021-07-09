@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Charts
 
 class ViewController: UIViewController {
     private var apiCaller = ApiCaller()
@@ -14,6 +15,7 @@ class ViewController: UIViewController {
         didSet{
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.createGraph()
             }
         }
     }
@@ -26,10 +28,32 @@ class ViewController: UIViewController {
         
         return table
     }()
+    
+    private func createGraph() {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width/1.5))
+        headerView.clipsToBounds = true
+        
+        var entries: [BarChartDataEntry] = []
+        let set = data.suffix(100)
+        for index in set.startIndex..<set.endIndex {
+            let data = set[index]
+            entries.append(BarChartDataEntry(x: Double(index), y: Double(data.Active)))
+        }
+        let dataSet = BarChartDataSet(entries: entries)
+        dataSet.colors = ChartColorTemplates.joyful()
+        let chartData: BarChartData = BarChartData(dataSet: dataSet)
+        
+        let chart = BarChartView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width/1.5))
+        chart.data = chartData
+        
+        headerView.addSubview(chart)
+        
+        tableView.tableHeaderView = headerView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Covid Cases"
+        title = "Active Covid Cases"
         createFilterButton()
         configureTable()
         //        getData()
