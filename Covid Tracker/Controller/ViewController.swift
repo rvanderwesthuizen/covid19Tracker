@@ -34,46 +34,26 @@ class ViewController: UIViewController {
         headerView.clipsToBounds = true
         
         var entries: [BarChartDataEntry] = []
-        var dates: [String] = []
-        
         let set = data.suffix(100)
         for index in set.startIndex..<set.endIndex {
             let data = set[index]
             entries.append(BarChartDataEntry(x: Double(index), y: Double(data.Active)))
-            dates.append(data.Date.replacingOccurrences(of: "T00:00:00Z", with: ""))
         }
         let dataSet = BarChartDataSet(entries: entries)
-        formatDataSet(dataSet)
+        dataSet.colors = ChartColorTemplates.joyful()
         let chartData: BarChartData = BarChartData(dataSet: dataSet)
         
         let chart = BarChartView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width/1.5))
-        chart.noDataText = "No Cases for: \(getSelectedCountryText())"
         chart.data = chartData
-        formatXAxis(chart.xAxis, with: dates)
-        chart.rightAxis.enabled = false
-        chart.leftAxis.axisMinimum = 0
-        chart.zoom(scaleX:12, scaleY: 5, x: 0, y: 0)
         
         headerView.addSubview(chart)
         
         tableView.tableHeaderView = headerView
     }
-    
-    private func formatDataSet(_ dataSet: BarChartDataSet) {
-        dataSet.colors = ChartColorTemplates.material()
-        dataSet.label = "Active cases for: \(getSelectedCountryText())"
-    }
-    
-    private func formatXAxis(_ xAxis: XAxis, with dates: [String]) {
-        xAxis.setLabelCount(dates.count, force: false)
-        xAxis.labelPosition = .bottom
-        xAxis.valueFormatter = IndexAxisValueFormatter(values: dates)
-    }
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Covid Cases"
+        title = "Active Covid Cases"
         createFilterButton()
         configureTable()
         //        getData()
@@ -90,7 +70,12 @@ class ViewController: UIViewController {
     }
     
     func createFilterButton() {
-        let buttonTitle = getSelectedCountryText()
+        let buttonTitle: String = { () -> String in
+            switch scope {
+            case .world: return "World Wide"
+            case .country(let country): return country.Country
+            }
+        }()
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: buttonTitle,
             style: .done,
@@ -107,13 +92,6 @@ class ViewController: UIViewController {
         }
         let navVC = UINavigationController(rootViewController: filterVC)
         present(navVC, animated: true)
-    }
-    
-    private func getSelectedCountryText() -> String {
-        switch scope {
-        case .world: return "World Wide"
-        case .country(let country): return country.Country
-        }
     }
     
     private func getData() {
@@ -145,6 +123,6 @@ extension ViewController: UITableViewDataSource {
     private func createText(with data: CovidDataResult) -> String {
         let date = data.Date.replacingOccurrences(of: "T00:00:00Z", with: "")
         let total = data.Active
-        return "Active cases on \(date): \(total)"
+        return "\(date): \(total)"
     }
 }
