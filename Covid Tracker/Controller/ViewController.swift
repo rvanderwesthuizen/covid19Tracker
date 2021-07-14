@@ -11,15 +11,6 @@ import Charts
 class ViewController: UIViewController {
     private var apiCaller = ApiCaller()
     
-    private var worldData: [WorldData] = [] {
-        didSet{
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.createGraph()
-            }
-        }
-    }
-    
     private var data: [CovidDataResult] = [] {
         didSet{
             DispatchQueue.main.async {
@@ -29,7 +20,7 @@ class ViewController: UIViewController {
         }
     }
     
-    private var scope: ApiCaller.DataScope = .world
+    private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(Country: "South Africa", Slug: "south-africa"))
     
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero)
@@ -85,7 +76,7 @@ class ViewController: UIViewController {
         title = "Covid Cases"
         createFilterButton()
         configureTable()
-        getWorldData()
+        getData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -120,7 +111,7 @@ class ViewController: UIViewController {
     
     private func getSelectedCountryText() -> String {
         switch scope {
-        case .world: return "World Wide"
+        case .defaultCountry(let country): return country.Country
         case .country(let country): return country.Country
         }
     }
@@ -130,17 +121,6 @@ class ViewController: UIViewController {
             switch result {
             case .success(let data):
                 self?.data = data
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    private func getWorldData() {
-        apiCaller.getWorldData(for: scope) { [weak self] result in
-            switch result {
-            case .success(let data):
-                self?.worldData = data
             case .failure(let error):
                 print(error)
             }

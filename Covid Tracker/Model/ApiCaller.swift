@@ -12,11 +12,10 @@ struct ApiCaller {
     private struct Constants {
         static let allCountriesURL = URL(string: "https://api.covid19api.com/countries")
         static let baseURLString = "https://api.covid19api.com/country/"
-        static let worldURL = "https://api.covid19api.com/world"
     }
     
     enum DataScope {
-        case world
+        case defaultCountry(CountryModel)
         case country(CountryModel)
     }
     
@@ -44,7 +43,7 @@ struct ApiCaller {
     public func getCovidData(for scope: DataScope, completion: @escaping (Result<[CovidDataResult], Error>) -> Void){
         let stringURL: String
         switch scope {
-        case .world: stringURL = Constants.worldURL
+        case .defaultCountry(let country): stringURL = "\(Constants.baseURLString)\(country.Slug)"
         case .country(let country): stringURL = "\(Constants.baseURLString)\(country.Slug)"
         }
         if let url = URL(string: stringURL) {
@@ -54,29 +53,6 @@ struct ApiCaller {
                     do {
                         let result = try JSONDecoder().decode([CovidDataResult].self, from: safeData)
                         let data: [CovidDataResult] = result
-                        completion(.success(data))
-                    } catch {
-                        completion(.failure(error))
-                    }
-                }
-            }
-            task.resume()
-        }
-    }
-    
-    public func getWorldData(for scope: DataScope, completion: @escaping (Result<[WorldData], Error>) -> Void) {
-        let stringURL: String
-        switch scope {
-        case .world: stringURL = Constants.worldURL
-        case .country(let country): stringURL = "\(Constants.baseURLString)\(country.Slug)"
-        }
-        if let url = URL(string: stringURL) {
-            let session = URLSession(configuration: .default)
-            let task = session.dataTask(with: url) { data, _, error in
-                if let safeData = data {
-                    do {
-                        let result = try JSONDecoder().decode([WorldData].self, from: safeData)
-                        let data: [WorldData] = result
                         completion(.success(data))
                     } catch {
                         completion(.failure(error))
@@ -96,16 +72,10 @@ struct CountryModel: Codable {
 }
 
 struct CovidDataResult: Codable {
+    
+    let Confirmed: Int
+    let Deaths: Int
+    let Recovered: Int
     let Active: Int
-    let Date: String
-}
-
-//struct CovidData {
-//    let Cases: Int
-//    let Date: Date
-//}
-
-struct WorldData: Codable {
-    let TotalConfirmed: Int
     let Date: String
 }
