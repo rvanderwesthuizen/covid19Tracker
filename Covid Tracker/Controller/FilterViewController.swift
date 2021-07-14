@@ -36,17 +36,11 @@ class FilterViewController: UIViewController {
         tableView.delegate = self
         
         getCountries()
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPressed))
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
-    }
-    
-    @objc private func closeButtonPressed(){
-        dismiss(animated: true, completion: nil)
     }
     
     private func getCountries(){
