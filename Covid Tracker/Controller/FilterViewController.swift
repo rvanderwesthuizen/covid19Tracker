@@ -9,16 +9,17 @@ import UIKit
 
 class FilterViewController: UIViewController {
 
+    
     public var completion: ((CountryModel) -> Void)?
     private var apiCaller = ApiCaller()
     
     private var countries: [CountryModel] = [] {
         didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+            setupDictionary()
         }
     }
+    
+    private var sections = [Section]()
     
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero)
@@ -53,25 +54,55 @@ class FilterViewController: UIViewController {
             }
         }
     }
+    
+    private func setupDictionary() {
+        let groupedDictionary = Dictionary(grouping: countries, by: {String($0.Country.prefix(1))})
+        let keys = groupedDictionary.keys.sorted()
+        sections = keys.map{ Section(letter: $0, countryNames: groupedDictionary[$0]!) }
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
 }
 
 extension FilterViewController: UITableViewDataSource, UITableViewDelegate{
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countries.count
+        return sections[section].countryNames.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let country = countries[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = country.Country
+        let section = sections[indexPath.section]
+        let countryName = section.countryNames[indexPath.row]
+        cell.textLabel?.text = countryName.Country
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let selectedCountry = countries[indexPath.row]
+        let section = sections[indexPath.section]
+        let selectedCountry = section.countryNames[indexPath.row]
         completion?(selectedCountry)
         
         dismiss(animated: true, completion: nil)
     }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return sections.map{$0.letter}
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section].letter.uppercased()
+    }
+}
+
+struct Section {
+    let letter: String
+    let countryNames: [CountryModel]
 }
