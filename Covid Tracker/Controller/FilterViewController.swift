@@ -11,7 +11,7 @@ class FilterViewController: UIViewController {
 
     
     public var completion: ((CountryModel) -> Void)?
-    private var apiCaller = ApiCaller()
+    private lazy var apiCaller = ApiCaller()
     
     private var countries: [CountryModel] = [] {
         didSet {

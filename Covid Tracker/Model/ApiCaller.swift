@@ -72,7 +72,6 @@ struct CountryModel: Codable {
 }
 
 struct CovidDataResult: Codable {
-    
     let Confirmed: Int
     let Deaths: Int
     let Recovered: Int

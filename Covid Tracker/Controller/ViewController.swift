@@ -14,7 +14,6 @@ class ViewController: UIViewController {
     private var data: [CovidDataResult] = [] {
         didSet{
             DispatchQueue.main.async {
-                self.tableView.reloadData()
                 self.createGraph()
             }
         }
@@ -22,21 +21,49 @@ class ViewController: UIViewController {
     
     private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(Country: "South Africa", Slug: "south-africa"))
     
-    private let tableView: UITableView = {
-        let table = UITableView(frame: .zero)
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        
-        return table
+    private lazy var filterButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(
+            title: "Filter",
+            style: .done,
+            target: self,
+            action: #selector(filterButtonPressed))
+        return button
     }()
     
-    private func createGraph() {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width/1.5))
-        headerView.clipsToBounds = true
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = "Covid Cases"
+        createFilterButton()
+        getData()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
+    func createFilterButton() {
+        filterButton.title = getSelectedCountryText()
+        navigationItem.rightBarButtonItem = filterButton
+    }
+    
+    private func getData() {
+        apiCaller.getCovidData(for: scope) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.data = data
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    public func createGraph() {
         
         var entries: [BarChartDataEntry] = []
         var dates: [String] = []
         
-        let set = data.suffix(100)
+        let set = data.suffix(31)
         for index in set.startIndex..<set.endIndex {
             let data = set[index]
             entries.append(BarChartDataEntry(x: Double(index), y: Double(data.Active)))
@@ -46,17 +73,24 @@ class ViewController: UIViewController {
         formatDataSet(dataSet)
         let chartData: BarChartData = BarChartData(dataSet: dataSet)
         
-        let chart = BarChartView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.width/1.5))
+        let chart = BarChartView(frame: CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.safeAreaLayoutGuide.layoutFrame.height))
         chart.noDataText = "No Cases for: \(getSelectedCountryText())"
         chart.data = chartData
         formatXAxis(chart.xAxis, with: dates)
         chart.rightAxis.enabled = false
         chart.leftAxis.axisMinimum = 0
-        chart.zoom(scaleX:12, scaleY: 5, x: 0, y: 0)
         
-        headerView.addSubview(chart)
+        configureViews(chart: chart)
+    }
+    
+    private func configureViews(chart : BarChartView) {
+        view.addSubview(chart)
         
-        tableView.tableHeaderView = headerView
+        NSLayoutConstraint.activate([
+            chart.topAnchor.constraint(equalTo: view.topAnchor),
+            chart.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            chart.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
     
     private func formatDataSet(_ dataSet: BarChartDataSet) {
@@ -68,34 +102,6 @@ class ViewController: UIViewController {
         xAxis.setLabelCount(dates.count, force: false)
         xAxis.labelPosition = .bottom
         xAxis.valueFormatter = IndexAxisValueFormatter(values: dates)
-    }
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        title = "Covid Cases"
-        createFilterButton()
-        configureTable()
-        getData()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
-    }
-    
-    private func configureTable() {
-        view.addSubview(tableView)
-        tableView.dataSource = self
-    }
-    
-    func createFilterButton() {
-        let buttonTitle = getSelectedCountryText()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: buttonTitle,
-            style: .done,
-            target: self,
-            action: #selector(filterButtonPressed))
     }
     
     @objc private func filterButtonPressed(){
@@ -114,37 +120,5 @@ class ViewController: UIViewController {
         case .defaultCountry(let country): return country.Country
         case .country(let country): return country.Country
         }
-    }
-    
-    private func getData() {
-        apiCaller.getCovidData(for: scope) { [weak self] result in
-            switch result {
-            case .success(let data):
-                self?.data = data
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-}
-
-extension ViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        data.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let data = data[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
-        cell.textLabel?.text = createText(with: data)
-        
-        return cell
-    }
-    
-    private func createText(with data: CovidDataResult) -> String {
-        let date = data.Date.replacingOccurrences(of: "T00:00:00Z", with: "")
-        let total = data.Active
-        return "Active cases on \(date): \(total)"
     }
 }
