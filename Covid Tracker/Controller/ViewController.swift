@@ -9,17 +9,7 @@ import UIKit
 import Charts
 
 class ViewController: UIViewController {
-    private var apiCaller = ApiCaller()
-    
-    private var data: [CovidDataResult] = [] {
-        didSet{
-            DispatchQueue.main.async {
-                self.reloadGraphData()
-            }
-        }
-    }
-    
-    enum resultSelector {
+    enum statusSelector {
         case active
         case confirmed
         case deaths
@@ -27,7 +17,17 @@ class ViewController: UIViewController {
     }
     
     private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(Country: "South Africa", Slug: "south-africa"))
-    private var selectedResult: resultSelector = .active
+    private var selectedStatus: statusSelector = .active
+    
+    private lazy var apiCaller = ApiCaller()
+    
+    private lazy var data: [CovidDataResult] = [] {
+        didSet{
+            DispatchQueue.main.async {
+                self.reloadGraphData()
+            }
+        }
+    }
     
     private lazy var filterButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -38,6 +38,7 @@ class ViewController: UIViewController {
         return button
     }()
     
+    //MARK: - @IBOutlets
     @IBOutlet weak var chartView: BarChartView!
     @IBOutlet weak var activeButton: UIButton!
     @IBOutlet weak var confirmedButton: UIButton!
@@ -50,16 +51,11 @@ class ViewController: UIViewController {
         title = "Covid Cases"
         updateFilterButton()
         getData()
-        
-        chartView.zoom(scaleX: 10, scaleY: 10, x: 0, y: 0)
-        chartView.noDataText = "No Cases for: \(getSelectedCountryText())"
-        chartView.rightAxis.enabled = false
-        chartView.leftAxis.axisMinimum = 0
+        formatGraph()
     }
     
     //MARK: - Filter Button
     func updateFilterButton() {
-        filterButton.tintColor = .systemTeal
         filterButton.title = getSelectedCountryText()
         navigationItem.rightBarButtonItem = filterButton
     }
@@ -81,45 +77,68 @@ class ViewController: UIViewController {
         var entries: [BarChartDataEntry] = []
         
         let set = data.suffix(31)
+        var dates: [String] = []
         
-        switch selectedResult {
+        switch selectedStatus {
         case .active:
             for index in set.startIndex..<set.endIndex {
                 let data = set[index]
                 entries.append(BarChartDataEntry(x: Double(index), y: Double(data.Active)))
+                dates.append(data.Date.replacingOccurrences(of: "T00:00:00Z", with: ""))
             }
         case .confirmed:
             for index in set.startIndex..<set.endIndex {
                 let data = set[index]
                 entries.append(BarChartDataEntry(x: Double(index), y: Double(data.Confirmed)))
+                dates.append(data.Date.replacingOccurrences(of: "T00:00:00Z", with: ""))
             }
         case .deaths:
             for index in set.startIndex..<set.endIndex {
                 let data = set[index]
                 entries.append(BarChartDataEntry(x: Double(index), y: Double(data.Deaths)))
+                dates.append(data.Date.replacingOccurrences(of: "T00:00:00Z", with: ""))
             }
         case .recovered:
             for index in set.startIndex..<set.endIndex {
                 let data = set[index]
                 entries.append(BarChartDataEntry(x: Double(index), y: Double(data.Recovered)))
+                dates.append(data.Date.replacingOccurrences(of: "T00:00:00Z", with: ""))
             }
         }
         
         let dataSet = BarChartDataSet(entries: entries)
         formatDataSet(dataSet)
+        formatXAxis(with: dates)
         let chartData: BarChartData = BarChartData(dataSet: dataSet)
         
         chartView.data = chartData
-        formatXAxis(chartView.xAxis)
+    }
+    
+    private func formatGraph() {
+        chartView.zoom(scaleX: 5, scaleY: 1, x: 0, y: 0)
+        chartView.noDataText = "No Cases for: \(getSelectedCountryText())"
+        chartView.rightAxis.enabled = false
+        chartView.leftAxis.axisMinimum = 0
     }
     
     private func formatDataSet(_ dataSet: BarChartDataSet) {
         dataSet.colors = ChartColorTemplates.material()
-        dataSet.label = "Active cases for: \(getSelectedCountryText())"
+        switch selectedStatus {
+        case .active:
+            dataSet.label = "Active cases for: \(getSelectedCountryText())"
+        case .confirmed:
+            dataSet.label = "Confirmed cases for: \(getSelectedCountryText())"
+        case .deaths:
+            dataSet.label = "Deaths for: \(getSelectedCountryText())"
+        case .recovered:
+            dataSet.label = "Recoveries for: \(getSelectedCountryText())"
+        }
     }
     
-    private func formatXAxis(_ xAxis: XAxis) {
-        xAxis.labelPosition = .bottom
+    private func formatXAxis(with dates: [String]) {
+        chartView.xAxis.labelPosition = .bottom
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: dates)
+        chartView.xAxis.labelRotationAngle = 45
     }
     
     //MARK: - @objc & @IBAction
@@ -137,31 +156,31 @@ class ViewController: UIViewController {
     @IBAction func radioButtonsTapped(_ sender: UIButton) {
         switch sender.titleLabel?.text {
         case "Active":
-            selectedResult = .active
+            selectedStatus = .active
             activeButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
             confirmedButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             deathsButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             recoveredButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
         case "Confirmed":
-            selectedResult = .confirmed
+            selectedStatus = .confirmed
             activeButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             confirmedButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
             deathsButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             recoveredButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
         case "Deaths":
-            selectedResult = .deaths
+            selectedStatus = .deaths
             activeButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             confirmedButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             deathsButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
             recoveredButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
         case "Recovered":
-            selectedResult = .recovered
+            selectedStatus = .recovered
             activeButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             confirmedButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             deathsButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             recoveredButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
         default:
-            selectedResult = .active
+            selectedStatus = .active
             activeButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
             confirmedButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             deathsButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)

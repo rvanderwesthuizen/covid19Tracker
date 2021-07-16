@@ -18,13 +18,12 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fvW-fo-x24" customClass="BarChartView" customModule="Charts">
                                 <rect key="frame" x="0.0" y="88" width="390" height="618"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="48" translatesAutoresizingMaskIntoConstraints="NO" id="raw-rI-y46">
-                                <rect key="frame" x="81.666666666666686" y="714" width="227" height="96"/>
+                                <rect key="frame" x="0.0" y="714" width="390" height="96"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="8XS-4D-8Ay">
-                                        <rect key="frame" x="1.6666666666666572" y="0.0" width="224" height="24"/>
+                                        <rect key="frame" x="83" y="0.0" width="224" height="24"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ju1-wO-BlP">
                                                 <rect key="frame" x="0.0" y="0.0" width="74" height="24"/>
@@ -47,7 +46,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="36" translatesAutoresizingMaskIntoConstraints="NO" id="Kme-9P-Odx">
-                                        <rect key="frame" x="0.0" y="72" width="227" height="24"/>
+                                        <rect key="frame" x="81.666666666666686" y="72" width="227" height="24"/>
                                         <subviews>
                                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lbw-mI-NwU">
                                                 <rect key="frame" x="0.0" y="0.0" width="81" height="24"/>
@@ -77,11 +76,11 @@
                         <constraints>
                             <constraint firstItem="fvW-fo-x24" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="20e-9g-JhB"/>
                             <constraint firstItem="fvW-fo-x24" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="4wc-fd-mIF"/>
-                            <constraint firstItem="raw-rI-y46" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="81.670000000000002" id="LFc-DR-O0I"/>
-                            <constraint firstItem="raw-rI-y46" firstAttribute="top" secondItem="fvW-fo-x24" secondAttribute="bottom" constant="8" id="RIn-Na-fGM"/>
-                            <constraint firstItem="raw-rI-y46" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="hMX-tc-Eiz"/>
+                            <constraint firstItem="raw-rI-y46" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Iyl-qH-YVc"/>
+                            <constraint firstItem="raw-rI-y46" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="R0i-Zv-osg"/>
+                            <constraint firstItem="raw-rI-y46" firstAttribute="top" secondItem="fvW-fo-x24" secondAttribute="bottom" constant="8" id="YzU-c5-pMN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="raw-rI-y46" secondAttribute="trailing" id="jke-KG-CvE"/>
                             <constraint firstItem="fvW-fo-x24" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="nCr-ZY-ICZ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="raw-rI-y46" secondAttribute="trailing" constant="81.329999999999998" id="uRL-Zb-p2x"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1OI-LU-qUT"/>
