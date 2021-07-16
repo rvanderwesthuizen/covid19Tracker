@@ -75,7 +75,7 @@ class ViewController: UIViewController {
     
     //MARK: - Filter Button
     func updateFilterButton() {
-        filterButton.title = getSelectedCountryText()
+        filterButton.title = selectedCountryText
     }
     
     //MARK: - Get covid data
@@ -94,32 +94,22 @@ class ViewController: UIViewController {
     public func reloadGraphData() {
         var entries: [BarChartDataEntry] = []
         var dates: [String] = []
+        var graphDataInstance: Int = 0
         set = data.suffix(31)
-        switch selectedStatus {
-        case .active:
-            for index in 0..<set.endIndex {
-                let data = set[index]
-                entries.append(BarChartDataEntry(x: Double(index), y: Double(data.Active)))
-                dates.append(data.Date.replacingOccurrences(of: "T00:00:00Z", with: ""))
+        
+        for index in 0..<set.endIndex {
+            switch selectedStatus {
+            case .active:
+                graphDataInstance = set[index].Deaths
+            case .confirmed:
+                graphDataInstance = set[index].Confirmed
+            case .deaths:
+                graphDataInstance = set[index].Deaths
+            case .recovered:
+                graphDataInstance = set[index].Recovered
             }
-        case .confirmed:
-            for index in set.startIndex..<set.endIndex {
-                let data = set[index]
-                entries.append(BarChartDataEntry(x: Double(index), y: Double(data.Confirmed)))
-                dates.append(data.Date.replacingOccurrences(of: "T00:00:00Z", with: ""))
-            }
-        case .deaths:
-            for index in set.startIndex..<set.endIndex {
-                let data = set[index]
-                entries.append(BarChartDataEntry(x: Double(index), y: Double(data.Deaths)))
-                dates.append(data.Date.replacingOccurrences(of: "T00:00:00Z", with: ""))
-            }
-        case .recovered:
-            for index in set.startIndex..<set.endIndex {
-                let data = set[index]
-                entries.append(BarChartDataEntry(x: Double(index), y: Double(data.Recovered)))
-                dates.append(data.Date.replacingOccurrences(of: "T00:00:00Z", with: ""))
-            }
+            entries.append(BarChartDataEntry(x: Double(index), y: Double(graphDataInstance)))
+            dates.append(set[index].Date.replacingOccurrences(of: "T00:00:00Z", with: ""))
         }
         
         let dataSet = BarChartDataSet(entries: entries)
@@ -132,7 +122,7 @@ class ViewController: UIViewController {
     
     private func formatGraph() {
         chartView.zoom(scaleX: 5, scaleY: 1, x: 0, y: 0)
-        chartView.noDataText = "No Cases for: \(getSelectedCountryText())"
+        chartView.noDataText = "No Cases for: \(selectedCountryText)"
         chartView.rightAxis.enabled = false
         chartView.leftAxis.axisMinimum = 0
         chartView.extraBottomOffset = 30
@@ -142,13 +132,13 @@ class ViewController: UIViewController {
         dataSet.colors = ChartColorTemplates.material()
         switch selectedStatus {
         case .active:
-            dataSet.label = "Active cases for: \(getSelectedCountryText())"
+            dataSet.label = "Active cases for: \(selectedCountryText)"
         case .confirmed:
-            dataSet.label = "Confirmed cases for: \(getSelectedCountryText())"
+            dataSet.label = "Confirmed cases for: \(selectedCountryText)"
         case .deaths:
-            dataSet.label = "Deaths for: \(getSelectedCountryText())"
+            dataSet.label = "Deaths for: \(selectedCountryText)"
         case .recovered:
-            dataSet.label = "Recoveries for: \(getSelectedCountryText())"
+            dataSet.label = "Recoveries for: \(selectedCountryText)"
         }
     }
     
@@ -175,47 +165,37 @@ class ViewController: UIViewController {
         let navVC = UINavigationController(rootViewController: filterVC)
         present(navVC, animated: true)
     }
-
+    
     @IBAction func radioButtonsTapped(_ sender: UIButton) {
+        deselectAllButtons()
         switch sender.titleLabel?.text {
         case "Active":
             selectedStatus = .active
             activeButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
-            confirmedButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-            deathsButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-            recoveredButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
         case "Confirmed":
             selectedStatus = .confirmed
-            activeButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             confirmedButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
-            deathsButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-            recoveredButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
         case "Deaths":
             selectedStatus = .deaths
-            activeButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-            confirmedButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             deathsButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
-            recoveredButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
         case "Recovered":
             selectedStatus = .recovered
-            activeButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-            confirmedButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-            deathsButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
             recoveredButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
         default:
             selectedStatus = .active
-            activeButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
-            confirmedButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-            deathsButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-            recoveredButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
         }
-        DispatchQueue.main.async {
-            self.reloadGraphData()
-        }
+        
+        self.reloadGraphData()
     }
     
-    //MARK: - Other functions
-    private func getSelectedCountryText() -> String {
+    private func deselectAllButtons() {
+        activeButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
+        confirmedButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
+        deathsButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
+        recoveredButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
+    }
+    
+    private var selectedCountryText: String {
         switch scope {
         case .defaultCountry(let country): return country.Country
         case .country(let country): return country.Country
