@@ -16,10 +16,10 @@ class ViewController: UIViewController {
         case recovered
     }
     
-    private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(Country: "South Africa", Slug: "south-africa"))
-    private var selectedStatus: statusSelector = .active
-    
     private lazy var apiCaller = ApiCaller()
+    
+    private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(Country: UserDefaults().string(forKey: "DefaultCountryName")!, Slug: UserDefaults().string(forKey: "DefaultCountrySlug")!))
+    private var selectedStatus: statusSelector = .active
     
     private lazy var data: [CovidDataResult] = [] {
         didSet{
@@ -36,7 +36,17 @@ class ViewController: UIViewController {
             title: "Filter",
             style: .done,
             target: self,
-            action: #selector(filterButtonPressed))
+            action: #selector(tappedFilterButton))
+        return button
+    }()
+    
+    private lazy var settingsButton: UIBarButtonItem = {
+        let image = UIImage(named: "apple-settings")?.withRenderingMode(.alwaysOriginal)
+        let button = UIBarButtonItem(
+            image: image,
+            style: .plain,
+            target: self,
+            action: #selector(tappedSettingButton))
         return button
     }()
     
@@ -50,7 +60,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Covid Cases"
+        title = "Covid Tracker"
+        navigationItem.rightBarButtonItem = filterButton
+        navigationItem.leftBarButtonItem = settingsButton
+        
         updateFilterButton()
         getData()
         formatGraph()
@@ -59,7 +72,6 @@ class ViewController: UIViewController {
     //MARK: - Filter Button
     func updateFilterButton() {
         filterButton.title = getSelectedCountryText()
-        navigationItem.rightBarButtonItem = filterButton
     }
     
     //MARK: - Get covid data
@@ -119,6 +131,7 @@ class ViewController: UIViewController {
         chartView.noDataText = "No Cases for: \(getSelectedCountryText())"
         chartView.rightAxis.enabled = false
         chartView.leftAxis.axisMinimum = 0
+        chartView.extraBottomOffset = 30
     }
     
     private func formatDataSet(_ dataSet: BarChartDataSet) {
@@ -142,7 +155,13 @@ class ViewController: UIViewController {
     }
     
     //MARK: - @objc & @IBAction
-    @objc private func filterButtonPressed(){
+    @objc private func tappedSettingButton(){
+        let settingsVC = DefaultCountrySelectionViewController()
+        let navVC = UINavigationController(rootViewController: settingsVC)
+        present(navVC, animated: true)
+    }
+    
+    @objc private func tappedFilterButton(){
         let filterVC = FilterViewController()
         filterVC.completion = { [weak self] country in
             self?.scope = .country(country)

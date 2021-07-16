@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A842DB0A352B0265D5EB76E /* Pods_Covid_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7D8469777795B8CF1A4FFD /* Pods_Covid_Tracker.framework */; };
+		C918223426A1525F00144137 /* DefaultCountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918223326A1525F00144137 /* DefaultCountrySelectionViewController.swift */; };
 		C9A6F9FC2697488300896BF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FB2697488300896BF9 /* AppDelegate.swift */; };
 		C9A6F9FE2697488300896BF9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FD2697488300896BF9 /* SceneDelegate.swift */; };
 		C9A6FA002697488300896BF9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FF2697488300896BF9 /* ViewController.swift */; };
@@ -22,6 +23,7 @@
 		211A61F7B339E96615719E6E /* Pods-Covid Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Covid Tracker.debug.xcconfig"; path = "Target Support Files/Pods-Covid Tracker/Pods-Covid Tracker.debug.xcconfig"; sourceTree = "<group>"; };
 		A35A82D2D7D62C83C8D35A53 /* Pods-Covid Tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Covid Tracker.release.xcconfig"; path = "Target Support Files/Pods-Covid Tracker/Pods-Covid Tracker.release.xcconfig"; sourceTree = "<group>"; };
 		AC7D8469777795B8CF1A4FFD /* Pods_Covid_Tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Covid_Tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C918223326A1525F00144137 /* DefaultCountrySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCountrySelectionViewController.swift; sourceTree = "<group>"; };
 		C9A6F9F82697488300896BF9 /* Covid Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Covid Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A6F9FB2697488300896BF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9A6F9FD2697488300896BF9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			children = (
 				C9A6F9FF2697488300896BF9 /* ViewController.swift */,
 				C9A6FA162697545100896BF9 /* FilterViewController.swift */,
+				C918223326A1525F00144137 /* DefaultCountrySelectionViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 				C9A6F9FE2697488300896BF9 /* SceneDelegate.swift in Sources */,
 				C9A6FA10269748F700896BF9 /* ApiCaller.swift in Sources */,
 				C9A6FA172697545100896BF9 /* FilterViewController.swift in Sources */,
+				C918223426A1525F00144137 /* DefaultCountrySelectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
