@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     
     private lazy var apiCaller = ApiCaller()
     
-    private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(Country: UserDefaults().string(forKey: "DefaultCountryName")!, Slug: UserDefaults().string(forKey: "DefaultCountrySlug")!))
+    private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(Country: "South Africa", Slug: "south-africa"))
     private var selectedStatus: statusSelector = .active
     
     private lazy var data: [CovidDataResult] = [] {
@@ -62,6 +62,9 @@ class ViewController: UIViewController {
         title = "Covid Tracker"
         navigationItem.rightBarButtonItem = filterButton
         navigationItem.leftBarButtonItem = settingsButton
+        if UserDefaults().string(forKey: "DefaultCountryName") != nil {
+            scope = .defaultCountry(CountryModel(Country: UserDefaults().string(forKey: "DefaultCountryName")!, Slug: UserDefaults().string(forKey: "DefaultCountrySlug")!))
+        }
         
         filterButton.tintColor = .darkGray
         settingsButton.tintColor = .darkGray
