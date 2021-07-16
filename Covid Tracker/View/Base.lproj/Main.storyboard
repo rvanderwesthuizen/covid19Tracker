@@ -24,7 +24,7 @@
                                 <rect key="frame" x="81.666666666666686" y="714" width="227" height="96"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="8XS-4D-8Ay">
-                                        <rect key="frame" x="1.3333333333333286" y="0.0" width="224" height="24"/>
+                                        <rect key="frame" x="1.6666666666666572" y="0.0" width="224" height="24"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ju1-wO-BlP">
                                                 <rect key="frame" x="0.0" y="0.0" width="74" height="24"/>
@@ -35,7 +35,7 @@
                                                     <action selector="radioButtonsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yro-qM-i23"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MVs-mI-hHz">
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MVs-mI-hHz">
                                                 <rect key="frame" x="115" y="0.0" width="109" height="24"/>
                                                 <state key="normal" title="Confirmed" image="unchecked">
                                                     <color key="titleColor" systemColor="labelColor"/>
@@ -49,7 +49,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="36" translatesAutoresizingMaskIntoConstraints="NO" id="Kme-9P-Odx">
                                         <rect key="frame" x="0.0" y="72" width="227" height="24"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lbw-mI-NwU">
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lbw-mI-NwU">
                                                 <rect key="frame" x="0.0" y="0.0" width="81" height="24"/>
                                                 <state key="normal" title="Deaths" image="unchecked">
                                                     <color key="titleColor" systemColor="labelColor"/>
@@ -58,7 +58,7 @@
                                                     <action selector="radioButtonsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BRj-OH-Pb2"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVq-9m-qox">
+                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVq-9m-qox">
                                                 <rect key="frame" x="117" y="0.0" width="110" height="24"/>
                                                 <state key="normal" title="Recovered" image="unchecked">
                                                     <color key="titleColor" systemColor="labelColor"/>
@@ -77,10 +77,11 @@
                         <constraints>
                             <constraint firstItem="fvW-fo-x24" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="20e-9g-JhB"/>
                             <constraint firstItem="fvW-fo-x24" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="4wc-fd-mIF"/>
-                            <constraint firstItem="raw-rI-y46" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Mg8-06-pZx"/>
+                            <constraint firstItem="raw-rI-y46" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="81.670000000000002" id="LFc-DR-O0I"/>
                             <constraint firstItem="raw-rI-y46" firstAttribute="top" secondItem="fvW-fo-x24" secondAttribute="bottom" constant="8" id="RIn-Na-fGM"/>
                             <constraint firstItem="raw-rI-y46" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="hMX-tc-Eiz"/>
                             <constraint firstItem="fvW-fo-x24" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="nCr-ZY-ICZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="raw-rI-y46" secondAttribute="trailing" constant="81.329999999999998" id="uRL-Zb-p2x"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1OI-LU-qUT"/>
