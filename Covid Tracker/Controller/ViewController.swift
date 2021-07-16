@@ -29,6 +29,8 @@ class ViewController: UIViewController {
         }
     }
     
+    private lazy var set: [CovidDataResult] = []
+    
     private lazy var filterButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
             title: "Filter",
@@ -75,13 +77,11 @@ class ViewController: UIViewController {
     //MARK: - Graph
     public func reloadGraphData() {
         var entries: [BarChartDataEntry] = []
-        
-        let set = data.suffix(31)
         var dates: [String] = []
-        
+        set = data.suffix(31)
         switch selectedStatus {
         case .active:
-            for index in set.startIndex..<set.endIndex {
+            for index in 0..<set.endIndex {
                 let data = set[index]
                 entries.append(BarChartDataEntry(x: Double(index), y: Double(data.Active)))
                 dates.append(data.Date.replacingOccurrences(of: "T00:00:00Z", with: ""))
@@ -138,7 +138,7 @@ class ViewController: UIViewController {
     private func formatXAxis(with dates: [String]) {
         chartView.xAxis.labelPosition = .bottom
         chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: dates)
-        chartView.xAxis.labelRotationAngle = 45
+        chartView.xAxis.labelRotationAngle = 30
     }
     
     //MARK: - @objc & @IBAction
