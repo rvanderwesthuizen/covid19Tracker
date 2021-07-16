@@ -41,9 +41,8 @@ class ViewController: UIViewController {
     }()
     
     private lazy var settingsButton: UIBarButtonItem = {
-        let image = UIImage(named: "apple-settings")?.withRenderingMode(.alwaysOriginal)
         let button = UIBarButtonItem(
-            image: image,
+            title: "Set default",
             style: .plain,
             target: self,
             action: #selector(tappedSettingButton))
@@ -64,6 +63,8 @@ class ViewController: UIViewController {
         navigationItem.rightBarButtonItem = filterButton
         navigationItem.leftBarButtonItem = settingsButton
         
+        filterButton.tintColor = .darkGray
+        settingsButton.tintColor = .darkGray
         updateFilterButton()
         getData()
         formatGraph()
