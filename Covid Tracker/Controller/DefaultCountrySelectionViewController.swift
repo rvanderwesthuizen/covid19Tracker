@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DefaultCountrySelectionViewController: UIViewController {
+class DefaultCountrySelectionViewController: UITableViewController {
     private lazy var apiCaller = ApiCaller()
     private lazy var defaults = UserDefaults()
     
@@ -19,27 +19,11 @@ class DefaultCountrySelectionViewController: UIViewController {
     
     private var sections = [Section]()
     
-    private let tableView: UITableView = {
-        let table = UITableView(frame: .zero)
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        return table
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
         title = "Select Default Country"
-        
-        view.addSubview(tableView)
-        tableView.dataSource = self
-        tableView.delegate = self
-        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         getCountries()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
     }
     
     private func getCountries(){
@@ -57,19 +41,17 @@ class DefaultCountrySelectionViewController: UIViewController {
         let groupedDictionary = Dictionary(grouping: countries, by: {String($0.Country.prefix(1))})
         let keys = groupedDictionary.keys.sorted()
         sections = keys.map{ Section(letter: $0, countryNames: groupedDictionary[$0]!) }
+        
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
-}
-
-extension DefaultCountrySelectionViewController: UITableViewDataSource, UITableViewDelegate{
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections[section].countryNames.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let section = sections[indexPath.section]
         let countryName = section.countryNames[indexPath.row]
@@ -78,7 +60,7 @@ extension DefaultCountrySelectionViewController: UITableViewDataSource, UITableV
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let section = sections[indexPath.section]
         let selectedCountry = section.countryNames[indexPath.row]
@@ -88,15 +70,15 @@ extension DefaultCountrySelectionViewController: UITableViewDataSource, UITableV
         dismiss(animated: true, completion: nil)
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
-    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return sections.map{$0.letter}
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section].letter.uppercased()
     }
 }
