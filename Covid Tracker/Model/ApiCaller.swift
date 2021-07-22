@@ -39,8 +39,8 @@ struct ApiCaller {
     public mutating func getCovidData(for scope: DataScope, completion: @escaping (Result<[CovidDataResult], Error>) -> Void){
         let stringURL: String
         switch scope {
-        case .defaultCountry(let country): stringURL = "\(constants.baseURLString)\(country.Slug)"
-        case .country(let country): stringURL = "\(constants.baseURLString)\(country.Slug)"
+        case .defaultCountry(let country): stringURL = "\(constants.baseURLString)\(country.slug)"
+        case .country(let country): stringURL = "\(constants.baseURLString)\(country.slug)"
         }
         if let url = URL(string: stringURL) {
             let session = URLSession(configuration: .default)
@@ -63,14 +63,27 @@ struct ApiCaller {
 //MARK: - Models
 
 struct CountryModel: Codable {
-    let Country: String
-    let Slug: String
+    let country: String
+    let slug: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case country = "Country"
+        case slug = "Slug"
+    }
 }
 
 struct CovidDataResult: Codable {
-    let Confirmed: Int
-    let Deaths: Int
-    let Recovered: Int
-    let Active: Int
-    let Date: String
+    let confirmed: Int
+    let deaths: Int
+    let recovered: Int
+    let active: Int
+    let date: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case confirmed = "Confirmed"
+        case deaths = "Deaths"
+        case recovered = "Recovered"
+        case active = "Active"
+        case date = "Date"
+    }
 }

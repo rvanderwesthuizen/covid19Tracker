@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     private lazy var apiCaller = ApiCaller()
     private lazy var constants = Constants()
     
-    private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(Country: "South Africa", Slug: "south-africa"))
+    private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(country: "South Africa", slug: "south-africa"))
     private var selectedStatus: statusSelector = .active
     
     private lazy var data: [CovidDataResult] = [] {
@@ -65,7 +65,7 @@ class ViewController: UIViewController {
         navigationItem.leftBarButtonItem = settingsButton
         
         if let defaultName = UserDefaults().string(forKey: constants.defaultCountryNameKey), let defaultSlug = UserDefaults().string(forKey: constants.defaultCountrySlugKey) {
-            scope = .defaultCountry(CountryModel(Country: defaultName, Slug: defaultSlug))
+            scope = .defaultCountry(CountryModel(country: defaultName, slug: defaultSlug))
         }
         
         filterButton.tintColor = .darkGray
@@ -102,16 +102,16 @@ class ViewController: UIViewController {
         for index in 0..<set.endIndex {
             switch selectedStatus {
             case .active:
-                graphDataInstance = set[index].Deaths
+                graphDataInstance = set[index].active
             case .confirmed:
-                graphDataInstance = set[index].Confirmed
+                graphDataInstance = set[index].confirmed
             case .deaths:
-                graphDataInstance = set[index].Deaths
+                graphDataInstance = set[index].deaths
             case .recovered:
-                graphDataInstance = set[index].Recovered
+                graphDataInstance = set[index].recovered
             }
             entries.append(BarChartDataEntry(x: Double(index), y: Double(graphDataInstance)))
-            dates.append(set[index].Date.replacingOccurrences(of: "T00:00:00Z", with: ""))
+            dates.append(set[index].date.replacingOccurrences(of: "T00:00:00Z", with: ""))
         }
         
         let dataSet = BarChartDataSet(entries: entries)
@@ -160,7 +160,7 @@ class ViewController: UIViewController {
     @objc private func tappedFilterButton(){
         let filterVC = FilterTableViewController()
         filterVC.completion = { [weak self] country in
-            self?.scope = .country(country)
+            self?.scope = .country(CountryModel(country: country.name, slug: country.slug))
             self?.getData()
             self?.updateFilterButton()
         }
@@ -199,8 +199,8 @@ class ViewController: UIViewController {
     
     private var selectedCountryText: String {
         switch scope {
-        case .defaultCountry(let country): return country.Country
-        case .country(let country): return country.Country
+        case .defaultCountry(let country): return country.country
+        case .country(let country): return country.country
         }
     }
 }

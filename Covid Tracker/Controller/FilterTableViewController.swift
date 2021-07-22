@@ -10,10 +10,10 @@ import UIKit
 class FilterTableViewController: UITableViewController {
 
     
-    public var completion: ((CountryModel) -> Void)?
+    public var completion: ((CountryViewModel) -> Void)?
     private lazy var apiCaller = ApiCaller()
     
-    private var countries: [CountryModel] = [] {
+    private var countryViewModels: [CountryViewModel] = [] {
         didSet {
             setupDictionary()
         }
@@ -34,7 +34,8 @@ class FilterTableViewController: UITableViewController {
         apiCaller.getCountries { [weak self] result in
             switch result {
             case .success(let countries):
-                self?.countries = countries.sorted(by: { $0.Country < $1.Country })
+                self?.countryViewModels = countries.map({return CountryViewModel(country: $0)})
+                self?.countryViewModels = self!.countryViewModels.sorted(by: { $0.name < $1.name })
             case .failure(let error):
                 print(error)
             }
@@ -42,7 +43,7 @@ class FilterTableViewController: UITableViewController {
     }
     
     private func setupDictionary() {
-        let groupedDictionary = Dictionary(grouping: countries, by: {String($0.Country.prefix(1))})
+        let groupedDictionary = Dictionary(grouping: countryViewModels, by: {String($0.name.prefix(1))})
         let keys = groupedDictionary.keys.sorted()
         sections = keys.map{ Section(letter: $0, countryNames: groupedDictionary[$0]!) }
         DispatchQueue.main.async {
@@ -58,7 +59,7 @@ class FilterTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let section = sections[indexPath.section]
         let countryName = section.countryNames[indexPath.row]
-        cell.textLabel?.text = countryName.Country
+        cell.textLabel?.text = countryName.name
         
         return cell
     }
@@ -83,11 +84,9 @@ class FilterTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section].letter.uppercased()
     }
-}
     
-
-
-struct Section {
-    let letter: String
-    let countryNames: [CountryModel]
+    private struct Section {
+        let letter: String
+        let countryNames: [CountryViewModel]
+    }
 }
