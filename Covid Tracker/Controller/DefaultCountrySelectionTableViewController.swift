@@ -8,11 +8,11 @@
 import UIKit
 
 class DefaultCountrySelectionTableViewController: UITableViewController {
-    private lazy var apiCaller = ApiCaller()
     private lazy var defaults = UserDefaults()
     private lazy var constants = Constants()
+    private let countryViewModel = CountryViewModel()
     
-    private var countryViewModels: [CountryViewModel] = [] {
+    private var countries: [CountryModel] = [] {
         didSet {
             setupDictionary()
         }
@@ -28,19 +28,12 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
     }
     
     private func getCountries(){
-        apiCaller.getCountries { [weak self] result in
-            switch result {
-            case .success(let countries):
-                self?.countryViewModels = countries.map({return CountryViewModel(country: $0)})
-                self?.countryViewModels = self!.countryViewModels.sorted(by: { $0.name < $1.name })
-            case .failure(let error):
-                print(error)
-            }
-        }
+        countryViewModel.getCountries()
+        countries = countryViewModel.countryList
     }
     
     private func setupDictionary() {
-        let groupedDictionary = Dictionary(grouping: countryViewModels, by: {String($0.name.prefix(1))})
+        let groupedDictionary = Dictionary(grouping: countries, by: {String($0.country.prefix(1))})
         let keys = groupedDictionary.keys.sorted()
         sections = keys.map{ Section(letter: $0, countryNames: groupedDictionary[$0]!) }
         
@@ -57,7 +50,7 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let section = sections[indexPath.section]
         let countryName = section.countryNames[indexPath.row]
-        cell.textLabel?.text = countryName.name
+        cell.textLabel?.text = countryName.country
         
         return cell
     }
@@ -66,7 +59,7 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let section = sections[indexPath.section]
         let selectedCountry = section.countryNames[indexPath.row]
-        defaults.set(selectedCountry.name, forKey: constants.defaultCountryNameKey)
+        defaults.set(selectedCountry.country, forKey: constants.defaultCountryNameKey)
         defaults.set(selectedCountry.slug, forKey: constants.defaultCountrySlugKey)
         
         dismiss(animated: true, completion: nil)
@@ -86,6 +79,6 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
     
     private struct Section {
         let letter: String
-        let countryNames: [CountryViewModel]
+        let countryNames: [CountryModel]
     }
 }

@@ -160,7 +160,7 @@ class ViewController: UIViewController {
     @objc private func tappedFilterButton(){
         let filterVC = FilterTableViewController()
         filterVC.completion = { [weak self] country in
-            self?.scope = .country(CountryModel(country: country.name, slug: country.slug))
+            self?.scope = .country(country)
             self?.getData()
             self?.updateFilterButton()
         }

@@ -8,12 +8,17 @@
 import Foundation
 
 class CountryViewModel {
+    private lazy var apiCaller = ApiCaller()
+    public lazy var countryList: [CountryModel] = []
     
-    let name: String
-    let slug: String
-    
-    init(country: CountryModel) {
-        self.name = country.country
-        self.slug = country.slug
+    func getCountries() {
+        apiCaller.getCountries {[weak self] result in
+            switch result {
+            case .success(let countries):
+                self?.countryList = countries.sorted(by: { $0.country < $1.country })
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
