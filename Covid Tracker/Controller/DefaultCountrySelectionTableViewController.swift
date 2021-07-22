@@ -7,9 +7,10 @@
 
 import UIKit
 
-class DefaultCountrySelectionViewController: UITableViewController {
+class DefaultCountrySelectionTableViewController: UITableViewController {
     private lazy var apiCaller = ApiCaller()
     private lazy var defaults = UserDefaults()
+    private lazy var constants = Constants()
     
     private var countries: [CountryModel] = [] {
         didSet {
@@ -64,8 +65,8 @@ class DefaultCountrySelectionViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let section = sections[indexPath.section]
         let selectedCountry = section.countryNames[indexPath.row]
-        defaults.set(selectedCountry.Country, forKey: "DefaultCountryName")
-        defaults.set(selectedCountry.Slug, forKey: "DefaultCountrySlug")
+        defaults.set(selectedCountry.Country, forKey: constants.defaultCountryNameKey)
+        defaults.set(selectedCountry.Slug, forKey: constants.defaultCountrySlugKey)
         
         dismiss(animated: true, completion: nil)
     }

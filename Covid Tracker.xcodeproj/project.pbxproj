@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1A842DB0A352B0265D5EB76E /* Pods_Covid_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7D8469777795B8CF1A4FFD /* Pods_Covid_Tracker.framework */; };
-		C918223426A1525F00144137 /* DefaultCountrySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918223326A1525F00144137 /* DefaultCountrySelectionViewController.swift */; };
+		C918223426A1525F00144137 /* DefaultCountrySelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918223326A1525F00144137 /* DefaultCountrySelectionTableViewController.swift */; };
+		C918223626A928D600144137 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918223526A928D600144137 /* Constants.swift */; };
 		C9A6F9FC2697488300896BF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FB2697488300896BF9 /* AppDelegate.swift */; };
 		C9A6F9FE2697488300896BF9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FD2697488300896BF9 /* SceneDelegate.swift */; };
 		C9A6FA002697488300896BF9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FF2697488300896BF9 /* ViewController.swift */; };
@@ -16,14 +17,15 @@
 		C9A6FA052697488700896BF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9A6FA042697488700896BF9 /* Assets.xcassets */; };
 		C9A6FA082697488700896BF9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A6FA062697488700896BF9 /* LaunchScreen.storyboard */; };
 		C9A6FA10269748F700896BF9 /* ApiCaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6FA0F269748F700896BF9 /* ApiCaller.swift */; };
-		C9A6FA172697545100896BF9 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6FA162697545100896BF9 /* FilterViewController.swift */; };
+		C9A6FA172697545100896BF9 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6FA162697545100896BF9 /* FilterTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		211A61F7B339E96615719E6E /* Pods-Covid Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Covid Tracker.debug.xcconfig"; path = "Target Support Files/Pods-Covid Tracker/Pods-Covid Tracker.debug.xcconfig"; sourceTree = "<group>"; };
 		A35A82D2D7D62C83C8D35A53 /* Pods-Covid Tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Covid Tracker.release.xcconfig"; path = "Target Support Files/Pods-Covid Tracker/Pods-Covid Tracker.release.xcconfig"; sourceTree = "<group>"; };
 		AC7D8469777795B8CF1A4FFD /* Pods_Covid_Tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Covid_Tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C918223326A1525F00144137 /* DefaultCountrySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCountrySelectionViewController.swift; sourceTree = "<group>"; };
+		C918223326A1525F00144137 /* DefaultCountrySelectionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCountrySelectionTableViewController.swift; sourceTree = "<group>"; };
+		C918223526A928D600144137 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C9A6F9F82697488300896BF9 /* Covid Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Covid Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A6F9FB2697488300896BF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9A6F9FD2697488300896BF9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -33,7 +35,7 @@
 		C9A6FA072697488700896BF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9A6FA092697488700896BF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9A6FA0F269748F700896BF9 /* ApiCaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCaller.swift; sourceTree = "<group>"; };
-		C9A6FA162697545100896BF9 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		C9A6FA162697545100896BF9 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				C9A6FA0F269748F700896BF9 /* ApiCaller.swift */,
+				C918223526A928D600144137 /* Constants.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -118,8 +121,8 @@
 			isa = PBXGroup;
 			children = (
 				C9A6F9FF2697488300896BF9 /* ViewController.swift */,
-				C9A6FA162697545100896BF9 /* FilterViewController.swift */,
-				C918223326A1525F00144137 /* DefaultCountrySelectionViewController.swift */,
+				C9A6FA162697545100896BF9 /* FilterTableViewController.swift */,
+				C918223326A1525F00144137 /* DefaultCountrySelectionTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -242,8 +245,9 @@
 				C9A6F9FC2697488300896BF9 /* AppDelegate.swift in Sources */,
 				C9A6F9FE2697488300896BF9 /* SceneDelegate.swift in Sources */,
 				C9A6FA10269748F700896BF9 /* ApiCaller.swift in Sources */,
-				C9A6FA172697545100896BF9 /* FilterViewController.swift in Sources */,
-				C918223426A1525F00144137 /* DefaultCountrySelectionViewController.swift in Sources */,
+				C918223626A928D600144137 /* Constants.swift in Sources */,
+				C9A6FA172697545100896BF9 /* FilterTableViewController.swift in Sources */,
+				C918223426A1525F00144137 /* DefaultCountrySelectionTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

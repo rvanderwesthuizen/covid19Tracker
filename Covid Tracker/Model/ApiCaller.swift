@@ -8,19 +8,15 @@
 import Foundation
 
 struct ApiCaller {
-    
-    private struct Constants {
-        static let allCountriesURL = URL(string: "https://api.covid19api.com/countries")
-        static let baseURLString = "https://api.covid19api.com/country/"
-    }
+    private lazy var constants = Constants()
     
     enum DataScope {
         case defaultCountry(CountryModel)
         case country(CountryModel)
     }
     
-    public func getCountries(completion: @escaping (Result<[CountryModel], Error>) -> Void){
-        if let url = Constants.allCountriesURL {
+    public mutating func getCountries(completion: @escaping (Result<[CountryModel], Error>) -> Void){
+        if let url = constants.allCountriesURL {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { data, _, error in
                 if error != nil {
@@ -40,11 +36,11 @@ struct ApiCaller {
         }
     }
     
-    public func getCovidData(for scope: DataScope, completion: @escaping (Result<[CovidDataResult], Error>) -> Void){
+    public mutating func getCovidData(for scope: DataScope, completion: @escaping (Result<[CovidDataResult], Error>) -> Void){
         let stringURL: String
         switch scope {
-        case .defaultCountry(let country): stringURL = "\(Constants.baseURLString)\(country.Slug)"
-        case .country(let country): stringURL = "\(Constants.baseURLString)\(country.Slug)"
+        case .defaultCountry(let country): stringURL = "\(constants.baseURLString)\(country.Slug)"
+        case .country(let country): stringURL = "\(constants.baseURLString)\(country.Slug)"
         }
         if let url = URL(string: stringURL) {
             let session = URLSession(configuration: .default)

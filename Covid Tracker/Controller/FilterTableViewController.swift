@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FilterViewController: UITableViewController {
+class FilterTableViewController: UITableViewController {
 
     
     public var completion: ((CountryModel) -> Void)?

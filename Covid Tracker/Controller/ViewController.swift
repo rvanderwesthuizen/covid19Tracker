@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     }
     
     private lazy var apiCaller = ApiCaller()
+    private lazy var constants = Constants()
     
     private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(Country: "South Africa", Slug: "south-africa"))
     private var selectedStatus: statusSelector = .active
@@ -62,8 +63,9 @@ class ViewController: UIViewController {
         title = "Covid Tracker"
         navigationItem.rightBarButtonItem = filterButton
         navigationItem.leftBarButtonItem = settingsButton
-        if UserDefaults().string(forKey: "DefaultCountryName") != nil {
-            scope = .defaultCountry(CountryModel(Country: UserDefaults().string(forKey: "DefaultCountryName")!, Slug: UserDefaults().string(forKey: "DefaultCountrySlug")!))
+        
+        if let defaultName = UserDefaults().string(forKey: constants.defaultCountryNameKey), let defaultSlug = UserDefaults().string(forKey: constants.defaultCountrySlugKey) {
+            scope = .defaultCountry(CountryModel(Country: defaultName, Slug: defaultSlug))
         }
         
         filterButton.tintColor = .darkGray
@@ -150,13 +152,13 @@ class ViewController: UIViewController {
     
     //MARK: - @objc & @IBAction
     @objc private func tappedSettingButton(){
-        let settingsVC = DefaultCountrySelectionViewController()
+        let settingsVC = DefaultCountrySelectionTableViewController()
         let navVC = UINavigationController(rootViewController: settingsVC)
         present(navVC, animated: true)
     }
     
     @objc private func tappedFilterButton(){
-        let filterVC = FilterViewController()
+        let filterVC = FilterTableViewController()
         filterVC.completion = { [weak self] country in
             self?.scope = .country(country)
             self?.getData()
