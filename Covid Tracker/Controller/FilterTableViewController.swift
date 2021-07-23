@@ -11,9 +11,8 @@ class FilterTableViewController: UITableViewController {
 
     
     public var completion: ((CountryModel) -> Void)?
-    private let countryViewModel = CountryViewModel()
     
-    public var countries: [Section] = [] {
+    public var countries: [CountryViewModel.Section] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -31,7 +30,7 @@ class FilterTableViewController: UITableViewController {
     }
     
     private func getCountries(){
-        countryViewModel.getCountries { sections in
+        CountryViewModel().getCountries { sections in
             self.countries = sections
         }
     }

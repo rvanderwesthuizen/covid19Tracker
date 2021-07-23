@@ -8,7 +8,9 @@
 import Foundation
 
 class CountryViewModel {
+    private lazy var constants = Constants()
     private lazy var apiCaller = ApiCaller()
+    private lazy var defaults = UserDefaults()
     public var countryList: [CountryModel] = []
     public var sections = [Section]()
     
@@ -20,18 +22,23 @@ class CountryViewModel {
                 completion(self.sections)
             case .failure(let error):
                 print(error)
-                return
             }
         }
     }
+    
     private func setupDictionary(_ countries: [CountryModel]) {
         let groupedDictionary = Dictionary(grouping: countries, by: {String($0.name.prefix(1))})
         let keys = groupedDictionary.keys.sorted()
         sections = keys.map{ Section(letter: $0, countryNames: groupedDictionary[$0]!) }
     }
-}
-
-struct Section {
-    let letter: String
-    let countryNames: [CountryModel]
+    
+    func setDefaults(_ country: CountryModel) {
+        defaults.set(country.name, forKey: constants.defaultCountryNameKey)
+        defaults.set(country.slug, forKey: constants.defaultCountrySlugKey)
+    }
+    
+    struct Section {
+        let letter: String
+        let countryNames: [CountryModel]
+    }
 }
