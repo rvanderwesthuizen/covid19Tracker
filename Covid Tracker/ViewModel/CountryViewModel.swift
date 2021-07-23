@@ -15,7 +15,7 @@ class CountryViewModel {
         apiCaller.getCountries {result in
             switch result {
             case .success(let countries):
-                completion(countries)
+                completion(countries.sorted(by: { $0.name < $1.name }))
             case .failure(let error):
                 print(error)
                 return

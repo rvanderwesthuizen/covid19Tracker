@@ -32,7 +32,7 @@ class FilterTableViewController: UITableViewController {
     
     private func getCountries(){
         countryViewModel.getCountries { countries in
-            self.countries = countries.sorted(by: { $0.name < $1.name })
+            self.countries = countries
         }
     }
     
