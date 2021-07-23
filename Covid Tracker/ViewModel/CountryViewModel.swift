@@ -15,7 +15,7 @@ class CountryViewModel {
         apiCaller.getCountries {[weak self] result in
             switch result {
             case .success(let countries):
-                self?.countryList = countries.sorted(by: { $0.country < $1.country })
+                self?.countryList = countries.sorted(by: { $0.name < $1.name })
             case .failure(let error):
                 print(error)
             }

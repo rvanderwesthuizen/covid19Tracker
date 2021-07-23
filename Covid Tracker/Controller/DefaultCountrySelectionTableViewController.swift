@@ -33,7 +33,7 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
     }
     
     private func setupDictionary() {
-        let groupedDictionary = Dictionary(grouping: countries, by: {String($0.country.prefix(1))})
+        let groupedDictionary = Dictionary(grouping: countries, by: {String($0.name.prefix(1))})
         let keys = groupedDictionary.keys.sorted()
         sections = keys.map{ Section(letter: $0, countryNames: groupedDictionary[$0]!) }
         
@@ -50,7 +50,7 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let section = sections[indexPath.section]
         let countryName = section.countryNames[indexPath.row]
-        cell.textLabel?.text = countryName.country
+        cell.textLabel?.text = countryName.name
         
         return cell
     }
@@ -59,7 +59,7 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let section = sections[indexPath.section]
         let selectedCountry = section.countryNames[indexPath.row]
-        defaults.set(selectedCountry.country, forKey: constants.defaultCountryNameKey)
+        defaults.set(selectedCountry.name, forKey: constants.defaultCountryNameKey)
         defaults.set(selectedCountry.slug, forKey: constants.defaultCountrySlugKey)
         
         dismiss(animated: true, completion: nil)

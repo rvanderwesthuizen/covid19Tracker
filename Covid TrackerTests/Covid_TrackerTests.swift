@@ -21,6 +21,6 @@ class Covid_TrackerTests: XCTestCase {
     func testIfCountryViewModelHasTheSameValuesAsCountryModel() {
         let countryModel = CountryModel(country: "South Africa", slug: "south-africa")
         let countryViewModel = CountryViewModel(country: countryModel)
-        XCTAssertTrue(countryViewModel.name == countryModel.country && countryViewModel.slug == countryModel.slug)
+        XCTAssertTrue(countryViewModel.name == countryModel.name && countryViewModel.slug == countryModel.slug)
     }
 }

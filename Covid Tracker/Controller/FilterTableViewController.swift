@@ -36,7 +36,7 @@ class FilterTableViewController: UITableViewController {
     }
     
     private func setupDictionary() {
-        let groupedDictionary = Dictionary(grouping: countries, by: {String($0.country.prefix(1))})
+        let groupedDictionary = Dictionary(grouping: countries, by: {String($0.name.prefix(1))})
         let keys = groupedDictionary.keys.sorted()
         sections = keys.map{ Section(letter: $0, countryNames: groupedDictionary[$0]!) }
         DispatchQueue.main.async {
@@ -52,7 +52,7 @@ class FilterTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let section = sections[indexPath.section]
         let countryName = section.countryNames[indexPath.row]
-        cell.textLabel?.text = countryName.country
+        cell.textLabel?.text = countryName.name
         
         return cell
     }
