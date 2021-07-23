@@ -13,13 +13,13 @@ class FilterTableViewController: UITableViewController {
     public var completion: ((CountryModel) -> Void)?
     private let countryViewModel = CountryViewModel()
     
-    public var countries: [CountryModel] = [] {
+    public var countries: [Section] = [] {
         didSet {
-            setupDictionary()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
-    
-    private var sections = [Section]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,27 +31,18 @@ class FilterTableViewController: UITableViewController {
     }
     
     private func getCountries(){
-        countryViewModel.getCountries { countries in
-            self.countries = countries
-        }
-    }
-    
-    private func setupDictionary() {
-        let groupedDictionary = Dictionary(grouping: countries, by: {String($0.name.prefix(1))})
-        let keys = groupedDictionary.keys.sorted()
-        sections = keys.map{ Section(letter: $0, countryNames: groupedDictionary[$0]!) }
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+        countryViewModel.getCountries { sections in
+            self.countries = sections
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].countryNames.count
+        return countries[section].countryNames.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let section = sections[indexPath.section]
+        let section = countries[indexPath.section]
         let countryName = section.countryNames[indexPath.row]
         cell.textLabel?.text = countryName.name
         
@@ -60,7 +51,7 @@ class FilterTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let section = sections[indexPath.section]
+        let section = countries[indexPath.section]
         let selectedCountry = section.countryNames[indexPath.row]
         completion?(selectedCountry)
         
@@ -68,19 +59,15 @@ class FilterTableViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return countries.count
     }
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return sections.map{$0.letter}
+        return countries.map{$0.letter}
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].letter.uppercased()
+        return countries[section].letter.uppercased()
     }
     
-    private struct Section {
-        let letter: String
-        let countryNames: [CountryModel]
-    }
 }
