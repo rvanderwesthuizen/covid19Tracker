@@ -24,4 +24,19 @@ class Covid_TrackerTests: XCTestCase {
             XCTAssertEqual(countries.count, 248)
         }
     }
+    
+    func testIfCountryViewModelDoesSetUserDefaults() {
+        let countryViewModel = CountryViewModel()
+        let defaultCountry = CountryModel(name: "Russian Federation", slug: "russia")
+        var country: CountryModel?
+        countryViewModel.setDefaults(defaultCountry)
+        
+        if let defaultName = UserDefaults().string(forKey: Constants().defaultCountryNameKey), let defaultSlug = UserDefaults().string(forKey: Constants().defaultCountrySlugKey) {
+            country = CountryModel(name: defaultName, slug: defaultSlug)
+        } else {
+            XCTAssertThrowsError(print("defaultName or defaultString returned nil"))
+        }
+        
+        XCTAssertEqual(country!.name, defaultCountry.name)
+    }
 }
