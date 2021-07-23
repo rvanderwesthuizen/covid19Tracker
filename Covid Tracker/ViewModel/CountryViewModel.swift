@@ -9,15 +9,16 @@ import Foundation
 
 class CountryViewModel {
     private lazy var apiCaller = ApiCaller()
-    public lazy var countryList: [CountryModel] = []
+    public var countryList: [CountryModel] = []
     
-    func getCountries() {
-        apiCaller.getCountries {[weak self] result in
+    func getCountries(completion: @escaping ([CountryModel]) -> Void) {
+        apiCaller.getCountries {result in
             switch result {
             case .success(let countries):
-                self?.countryList = countries.sorted(by: { $0.name < $1.name })
+                completion(countries)
             case .failure(let error):
                 print(error)
+                return
             }
         }
     }

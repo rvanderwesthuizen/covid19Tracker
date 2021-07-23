@@ -31,8 +31,9 @@ class FilterTableViewController: UITableViewController {
     }
     
     private func getCountries(){
-        countryViewModel.getCountries()
-        countries = countryViewModel.countryList
+        countryViewModel.getCountries { countries in
+            self.countries = countries.sorted(by: { $0.name < $1.name })
+        }
     }
     
     private func setupDictionary() {
