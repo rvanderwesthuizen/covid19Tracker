@@ -10,10 +10,10 @@ import UIKit
 class FilterTableViewController: UITableViewController {
 
     
-    public var completion: ((CountryViewModel) -> Void)?
-    private lazy var apiCaller = ApiCaller()
+    public var completion: ((CountryModel) -> Void)?
+    private let countryViewModel = CountryViewModel()
     
-    private var countryViewModels: [CountryViewModel] = [] {
+    public var countries: [CountryModel] = [] {
         didSet {
             setupDictionary()
         }
@@ -31,19 +31,13 @@ class FilterTableViewController: UITableViewController {
     }
     
     private func getCountries(){
-        apiCaller.getCountries { [weak self] result in
-            switch result {
-            case .success(let countries):
-                self?.countryViewModels = countries.map({return CountryViewModel(country: $0)})
-                self?.countryViewModels = self!.countryViewModels.sorted(by: { $0.name < $1.name })
-            case .failure(let error):
-                print(error)
-            }
+        countryViewModel.getCountries { countries in
+            self.countries = countries
         }
     }
     
     private func setupDictionary() {
-        let groupedDictionary = Dictionary(grouping: countryViewModels, by: {String($0.name.prefix(1))})
+        let groupedDictionary = Dictionary(grouping: countries, by: {String($0.name.prefix(1))})
         let keys = groupedDictionary.keys.sorted()
         sections = keys.map{ Section(letter: $0, countryNames: groupedDictionary[$0]!) }
         DispatchQueue.main.async {
@@ -87,6 +81,6 @@ class FilterTableViewController: UITableViewController {
     
     private struct Section {
         let letter: String
-        let countryNames: [CountryViewModel]
+        let countryNames: [CountryModel]
     }
 }

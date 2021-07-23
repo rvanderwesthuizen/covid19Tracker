@@ -63,11 +63,11 @@ struct ApiCaller {
 //MARK: - Models
 
 struct CountryModel: Codable {
-    let country: String
+    let name: String
     let slug: String
     
     private enum CodingKeys: String, CodingKey {
-        case country = "Country"
+        case name = "Country"
         case slug = "Slug"
     }
 }

@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     private lazy var apiCaller = ApiCaller()
     private lazy var constants = Constants()
     
-    private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(country: "South Africa", slug: "south-africa"))
+    private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(name: "South Africa", slug: "south-africa"))
     private var selectedStatus: statusSelector = .active
     
     private lazy var data: [CovidDataResult] = [] {
@@ -65,7 +65,7 @@ class ViewController: UIViewController {
         navigationItem.leftBarButtonItem = settingsButton
         
         if let defaultName = UserDefaults().string(forKey: constants.defaultCountryNameKey), let defaultSlug = UserDefaults().string(forKey: constants.defaultCountrySlugKey) {
-            scope = .defaultCountry(CountryModel(country: defaultName, slug: defaultSlug))
+            scope = .defaultCountry(CountryModel(name: defaultName, slug: defaultSlug))
         }
         
         filterButton.tintColor = .darkGray
@@ -160,7 +160,7 @@ class ViewController: UIViewController {
     @objc private func tappedFilterButton(){
         let filterVC = FilterTableViewController()
         filterVC.completion = { [weak self] country in
-            self?.scope = .country(CountryModel(country: country.name, slug: country.slug))
+            self?.scope = .country(country)
             self?.getData()
             self?.updateFilterButton()
         }
@@ -199,8 +199,8 @@ class ViewController: UIViewController {
     
     private var selectedCountryText: String {
         switch scope {
-        case .defaultCountry(let country): return country.country
-        case .country(let country): return country.country
+        case .defaultCountry(let country): return country.name
+        case .country(let country): return country.name
         }
     }
 }

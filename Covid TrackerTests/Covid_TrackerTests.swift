@@ -18,9 +18,10 @@ class Covid_TrackerTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    func testIfCountryViewModelHasTheSameValuesAsCountryModel() {
-        let countryModel = CountryModel(country: "South Africa", slug: "south-africa")
-        let countryViewModel = CountryViewModel(country: countryModel)
-        XCTAssertTrue(countryViewModel.name == countryModel.country && countryViewModel.slug == countryModel.slug)
+    func testIfCountryViewModelGetCountriesFunctionReturnsAListOf248() {
+        let countryViewModel = CountryViewModel()
+        countryViewModel.getCountries { countries in
+            XCTAssertEqual(countries.count, 248)
+        }
     }
 }
