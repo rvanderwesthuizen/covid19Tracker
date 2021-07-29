@@ -8,8 +8,6 @@
 import UIKit
 
 class FilterTableViewController: UITableViewController {
-
-    
     public var completion: ((CountryModel) -> Void)?
     
     public var countries: [CountryViewModel.Section] = [] {

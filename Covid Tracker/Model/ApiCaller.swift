@@ -8,7 +8,6 @@
 import Foundation
 
 struct ApiCaller {
-    private lazy var constants = Constants()
     
     enum DataScope {
         case defaultCountry(CountryModel)
@@ -16,7 +15,7 @@ struct ApiCaller {
     }
     
     public mutating func getCountries(completion: @escaping (Result<[CountryModel], Error>) -> Void){
-        if let url = constants.allCountriesURL {
+        if let url = Constants.allCountriesURL {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { data, _, error in
                 if error != nil {
@@ -39,8 +38,8 @@ struct ApiCaller {
     public mutating func getCovidData(for scope: DataScope, completion: @escaping (Result<[CovidDataResult], Error>) -> Void){
         let stringURL: String
         switch scope {
-        case .defaultCountry(let country): stringURL = "\(constants.baseURLString)\(country.slug)"
-        case .country(let country): stringURL = "\(constants.baseURLString)\(country.slug)"
+        case .defaultCountry(let country): stringURL = "\(Constants.baseURLString)\(country.slug)"
+        case .country(let country): stringURL = "\(Constants.baseURLString)\(country.slug)"
         }
         if let url = URL(string: stringURL) {
             let session = URLSession(configuration: .default)

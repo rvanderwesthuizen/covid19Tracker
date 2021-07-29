@@ -8,7 +8,6 @@
 import Foundation
 
 class CountryViewModel {
-    private lazy var constants = Constants()
     private lazy var apiCaller = ApiCaller()
     private lazy var defaults = UserDefaults()
     public var countryList: [CountryModel] = []
@@ -33,8 +32,8 @@ class CountryViewModel {
     }
     
     func setDefaults(_ country: CountryModel) {
-        defaults.set(country.name, forKey: constants.defaultCountryNameKey)
-        defaults.set(country.slug, forKey: constants.defaultCountrySlugKey)
+        defaults.set(country.name, forKey: Constants.defaultCountryNameKey)
+        defaults.set(country.slug, forKey: Constants.defaultCountrySlugKey)
     }
     
     struct Section {

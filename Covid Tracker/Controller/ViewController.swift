@@ -17,7 +17,6 @@ class ViewController: UIViewController {
     }
     
     private lazy var apiCaller = ApiCaller()
-    private lazy var constants = Constants()
     
     private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(name: "South Africa", slug: "south-africa"))
     private var selectedStatus: statusSelector = .active
@@ -64,7 +63,7 @@ class ViewController: UIViewController {
         navigationItem.rightBarButtonItem = filterButton
         navigationItem.leftBarButtonItem = settingsButton
         
-        if let defaultName = UserDefaults().string(forKey: constants.defaultCountryNameKey), let defaultSlug = UserDefaults().string(forKey: constants.defaultCountrySlugKey) {
+        if let defaultName = UserDefaults().string(forKey: Constants.defaultCountryNameKey), let defaultSlug = UserDefaults().string(forKey: Constants.defaultCountrySlugKey) {
             scope = .defaultCountry(CountryModel(name: defaultName, slug: defaultSlug))
         }
         
