@@ -19,7 +19,9 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
     
     private func getCountries(){
         countryViewModel.getCountries {
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     

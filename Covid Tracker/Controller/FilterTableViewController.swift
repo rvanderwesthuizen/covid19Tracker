@@ -20,8 +20,10 @@ class FilterTableViewController: UITableViewController {
     }
     
     private func getCountries(){
-        CountryViewModel().getCountries {
-            self.tableView.reloadData()
+        countryViewModel.getCountries {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     

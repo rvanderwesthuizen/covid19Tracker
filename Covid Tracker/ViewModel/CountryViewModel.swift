@@ -20,11 +20,12 @@ class CountryViewModel {
         sections.map{$0.letter}
     }
     
-    func getCountries(completion: () -> Void) {
+    func getCountries(completion: @escaping () -> Void) {
         apiCaller.getCountries { result in
             switch result {
             case .success(let countries):
                 self.setupDictionary(countries.sorted(by: { $0.name < $1.name }))
+                completion()
             case .failure(let error):
                 print(error)
             }
