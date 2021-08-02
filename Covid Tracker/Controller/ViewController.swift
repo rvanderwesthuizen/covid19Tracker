@@ -9,28 +9,7 @@ import UIKit
 import Charts
 
 class ViewController: UIViewController {
-    enum statusSelector {
-        case active
-        case confirmed
-        case deaths
-        case recovered
-    }
-    
-    private lazy var apiCaller = ApiCaller()
-    private lazy var constants = Constants()
-    
-    private var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(name: "South Africa", slug: "south-africa"))
-    private var selectedStatus: statusSelector = .active
-    
-    private lazy var data: [CovidDataResult] = [] {
-        didSet{
-            DispatchQueue.main.async {
-                self.reloadGraphData()
-            }
-        }
-    }
-    
-    private lazy var set: [CovidDataResult] = []
+    private let covidDataViewModel = CovidDataViewModel()
     
     private lazy var filterButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -64,9 +43,7 @@ class ViewController: UIViewController {
         navigationItem.rightBarButtonItem = filterButton
         navigationItem.leftBarButtonItem = settingsButton
         
-        if let defaultName = UserDefaults().string(forKey: constants.defaultCountryNameKey), let defaultSlug = UserDefaults().string(forKey: constants.defaultCountrySlugKey) {
-            scope = .defaultCountry(CountryModel(name: defaultName, slug: defaultSlug))
-        }
+        covidDataViewModel.checkForDefault()
         
         filterButton.tintColor = .darkGray
         settingsButton.tintColor = .darkGray
@@ -77,17 +54,14 @@ class ViewController: UIViewController {
     
     //MARK: - Filter Button
     func updateFilterButton() {
-        filterButton.title = selectedCountryText
+        filterButton.title = covidDataViewModel.selectedCountryText
     }
     
     //MARK: - Get covid data
     private func getData() {
-        apiCaller.getCovidData(for: scope) { [weak self] result in
-            switch result {
-            case .success(let data):
-                self?.data = data
-            case .failure(let error):
-                print(error)
+        covidDataViewModel.getData {
+            DispatchQueue.main.async {
+                self.reloadGraphData()
             }
         }
     }
@@ -95,36 +69,24 @@ class ViewController: UIViewController {
     //MARK: - Graph
     public func reloadGraphData() {
         var entries: [BarChartDataEntry] = []
-        var dates: [String] = []
-        var graphDataInstance: Int = 0
-        set = data.suffix(31)
         
-        for index in 0..<set.endIndex {
-            switch selectedStatus {
-            case .active:
-                graphDataInstance = set[index].active
-            case .confirmed:
-                graphDataInstance = set[index].confirmed
-            case .deaths:
-                graphDataInstance = set[index].deaths
-            case .recovered:
-                graphDataInstance = set[index].recovered
-            }
-            entries.append(BarChartDataEntry(x: Double(index), y: Double(graphDataInstance)))
-            dates.append(set[index].date.replacingOccurrences(of: "T00:00:00Z", with: ""))
+        for index in 0..<covidDataViewModel.set.endIndex {
+            covidDataViewModel.setupDates(at: index)
+            entries.append(BarChartDataEntry(x: Double(index), y: Double(covidDataViewModel.graphDataInstance(at: index))))
         }
         
         let dataSet = BarChartDataSet(entries: entries)
         formatDataSet(dataSet)
-        formatXAxis(with: dates)
+        formatXAxis()
         let chartData: BarChartData = BarChartData(dataSet: dataSet)
         
         chartView.data = chartData
     }
     
     private func formatGraph() {
+        chartView.doubleTapToZoomEnabled = false
         chartView.zoom(scaleX: 5, scaleY: 1, x: 0, y: 0)
-        chartView.noDataText = "No Cases for: \(selectedCountryText)"
+        chartView.noDataText = "No Cases for: \(covidDataViewModel.selectedCountryText)"
         chartView.rightAxis.enabled = false
         chartView.leftAxis.axisMinimum = 0
         chartView.extraBottomOffset = 30
@@ -132,21 +94,12 @@ class ViewController: UIViewController {
     
     private func formatDataSet(_ dataSet: BarChartDataSet) {
         dataSet.colors = ChartColorTemplates.material()
-        switch selectedStatus {
-        case .active:
-            dataSet.label = "Active cases for: \(selectedCountryText)"
-        case .confirmed:
-            dataSet.label = "Confirmed cases for: \(selectedCountryText)"
-        case .deaths:
-            dataSet.label = "Deaths for: \(selectedCountryText)"
-        case .recovered:
-            dataSet.label = "Recoveries for: \(selectedCountryText)"
-        }
+        dataSet.label = covidDataViewModel.dataSetLabel()
     }
     
-    private func formatXAxis(with dates: [String]) {
+    private func formatXAxis() {
         chartView.xAxis.labelPosition = .bottom
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: dates)
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: covidDataViewModel.dates)
         chartView.xAxis.labelRotationAngle = 30
     }
     
@@ -160,7 +113,7 @@ class ViewController: UIViewController {
     @objc private func tappedFilterButton(){
         let filterVC = FilterTableViewController()
         filterVC.completion = { [weak self] country in
-            self?.scope = .country(country)
+            self?.covidDataViewModel.scope = .country(country)
             self?.getData()
             self?.updateFilterButton()
         }
@@ -172,19 +125,19 @@ class ViewController: UIViewController {
         deselectAllButtons()
         switch sender.titleLabel?.text {
         case "Active":
-            selectedStatus = .active
+            covidDataViewModel.selectedStatus = .active
             activeButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
         case "Confirmed":
-            selectedStatus = .confirmed
+            covidDataViewModel.selectedStatus = .confirmed
             confirmedButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
         case "Deaths":
-            selectedStatus = .deaths
+            covidDataViewModel.selectedStatus = .deaths
             deathsButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
         case "Recovered":
-            selectedStatus = .recovered
+            covidDataViewModel.selectedStatus = .recovered
             recoveredButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
         default:
-            selectedStatus = .active
+            covidDataViewModel.selectedStatus = .active
         }
         
         self.reloadGraphData()
@@ -195,12 +148,5 @@ class ViewController: UIViewController {
         confirmedButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
         deathsButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
         recoveredButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-    }
-    
-    private var selectedCountryText: String {
-        switch scope {
-        case .defaultCountry(let country): return country.name
-        case .country(let country): return country.name
-        }
     }
 }

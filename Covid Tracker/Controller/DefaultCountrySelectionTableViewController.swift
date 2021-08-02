@@ -10,14 +10,6 @@ import UIKit
 class DefaultCountrySelectionTableViewController: UITableViewController {
     private let countryViewModel = CountryViewModel()
     
-    private var countries: [CountryViewModel.Section] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Select Default Country"
@@ -26,18 +18,21 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
     }
     
     private func getCountries(){
-        countryViewModel.getCountries { sections in
-            self.countries = sections
+        countryViewModel.getCountries {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countries[section].countryNames.count
+        return countryViewModel.numberOfRowsInSection(at: section)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let section = countries[indexPath.section]
+        
+        guard let section = countryViewModel.country(at: indexPath.section) else { return cell }
         let countryName = section.countryNames[indexPath.row]
         cell.textLabel?.text = countryName.name
         
@@ -46,7 +41,8 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let section = countries[indexPath.section]
+        guard let section = countryViewModel.country(at: indexPath.section) else { return }
+        
         let selectedCountry = section.countryNames[indexPath.row]
         
         countryViewModel.setDefaults(selectedCountry)
@@ -55,14 +51,14 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return countries.count
+        return countryViewModel.counts
     }
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return countries.map{$0.letter}
+        return countryViewModel.letters
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return countries[section].letter.uppercased()
+        return countryViewModel.letter(at: section)?.uppercased()
     }
 }

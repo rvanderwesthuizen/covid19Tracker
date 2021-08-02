@@ -8,8 +8,8 @@
 import Foundation
 
 struct Constants {
-    let allCountriesURL = URL(string: "https://api.covid19api.com/countries")
-    let baseURLString = "https://api.covid19api.com/country/"
-    let defaultCountryNameKey = "DefaultCountryName"
-    let defaultCountrySlugKey = "DefaultCountrySlug"
+    static let allCountriesURL = URL(string: "https://api.covid19api.com/countries")
+    static let baseURLString = "https://api.covid19api.com/country/"
+    static let defaultCountryNameKey = "DefaultCountryName"
+    static let defaultCountrySlugKey = "DefaultCountrySlug"
 }

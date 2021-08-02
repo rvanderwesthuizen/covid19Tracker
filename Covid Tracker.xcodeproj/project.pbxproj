@@ -12,6 +12,7 @@
 		C918223626A928D600144137 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918223526A928D600144137 /* Constants.swift */; };
 		C918223926A92E9100144137 /* CountryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918223826A92E9100144137 /* CountryViewModel.swift */; };
 		C918224126A9419700144137 /* Covid_TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918224026A9419700144137 /* Covid_TrackerTests.swift */; };
+		C98CE4B626B288F1004282A4 /* CovidDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CE4B526B288F1004282A4 /* CovidDataViewModel.swift */; };
 		C9A6F9FC2697488300896BF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FB2697488300896BF9 /* AppDelegate.swift */; };
 		C9A6F9FE2697488300896BF9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FD2697488300896BF9 /* SceneDelegate.swift */; };
 		C9A6FA002697488300896BF9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FF2697488300896BF9 /* ViewController.swift */; };
@@ -42,6 +43,7 @@
 		C918223E26A9419700144137 /* Covid TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Covid TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C918224026A9419700144137 /* Covid_TrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Covid_TrackerTests.swift; sourceTree = "<group>"; };
 		C918224226A9419700144137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C98CE4B526B288F1004282A4 /* CovidDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CovidDataViewModel.swift; sourceTree = "<group>"; };
 		C9A6F9F82697488300896BF9 /* Covid Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Covid Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A6F9FB2697488300896BF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9A6F9FD2697488300896BF9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				C918223826A92E9100144137 /* CountryViewModel.swift */,
+				C98CE4B526B288F1004282A4 /* CovidDataViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9A6FA002697488300896BF9 /* ViewController.swift in Sources */,
+				C98CE4B626B288F1004282A4 /* CovidDataViewModel.swift in Sources */,
 				C918223926A92E9100144137 /* CountryViewModel.swift in Sources */,
 				C9A6F9FC2697488300896BF9 /* AppDelegate.swift in Sources */,
 				C9A6F9FE2697488300896BF9 /* SceneDelegate.swift in Sources */,

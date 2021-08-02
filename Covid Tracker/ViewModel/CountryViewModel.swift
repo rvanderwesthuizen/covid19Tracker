@@ -8,22 +8,40 @@
 import Foundation
 
 class CountryViewModel {
-    private lazy var constants = Constants()
     private lazy var apiCaller = ApiCaller()
     private lazy var defaults = UserDefaults()
-    public var countryList: [CountryModel] = []
-    public var sections = [Section]()
+    private var sections = [Section]()
     
-    func getCountries(completion: @escaping ([Section]) -> Void) {
+    var counts: Int {
+        sections.count
+    }
+    
+    var letters: [String] {
+        sections.map{$0.letter}
+    }
+    
+    func getCountries(completion: @escaping () -> Void) {
         apiCaller.getCountries { result in
             switch result {
             case .success(let countries):
                 self.setupDictionary(countries.sorted(by: { $0.name < $1.name }))
-                completion(self.sections)
+                completion()
             case .failure(let error):
                 print(error)
             }
         }
+    }
+    
+    func country(at index: Int) -> Section? {
+        sections.element(at: index)
+    }
+    
+    func letter(at index: Int) -> String? {
+        letters.element(at: index)
+    }
+    
+    func numberOfRowsInSection(at index: Int) -> Int {
+        sections.element(at: index)?.countryNames.count ?? 1
     }
     
     private func setupDictionary(_ countries: [CountryModel]) {
@@ -33,12 +51,22 @@ class CountryViewModel {
     }
     
     func setDefaults(_ country: CountryModel) {
-        defaults.set(country.name, forKey: constants.defaultCountryNameKey)
-        defaults.set(country.slug, forKey: constants.defaultCountrySlugKey)
+        defaults.set(country.name, forKey: Constants.defaultCountryNameKey)
+        defaults.set(country.slug, forKey: Constants.defaultCountrySlugKey)
     }
     
     struct Section {
         let letter: String
         let countryNames: [CountryModel]
+    }
+}
+
+extension Array {
+    public func element (at index: Int) -> Element? {
+        if indices.contains(index) {
+            return self[index]
+        } else {
+            return nil
+        }
     }
 }
