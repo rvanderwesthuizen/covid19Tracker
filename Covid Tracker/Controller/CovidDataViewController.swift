@@ -8,7 +8,7 @@
 import UIKit
 import Charts
 
-class MainViewController: UIViewController {
+class CovidDataViewController: UIViewController {
     private let covidDataViewModel = CovidDataViewModel()
     
     private lazy var filterButton: UIBarButtonItem = {
@@ -46,6 +46,8 @@ class MainViewController: UIViewController {
         filterButton.tintColor = .darkGray
         settingsButton.tintColor = .darkGray
         updateFilterButton()
+        
+        activateActivityIndicator()
         getData()
         formatGraph()
     }
@@ -55,11 +57,18 @@ class MainViewController: UIViewController {
         filterButton.title = covidDataViewModel.selectedCountryText
     }
     
+    //MARK: - Activity Indicator
+    func activateActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.startAnimating()
+    }
+    
     //MARK: - Get covid data
     private func getData() {
         covidDataViewModel.getData {
             DispatchQueue.main.async {
                 self.reloadGraphData()
+                self.activityIndicator.stopAnimating()
             }
         }
     }
@@ -126,6 +135,7 @@ class MainViewController: UIViewController {
         let filterVC = FilterTableViewController()
         filterVC.completion = { [weak self] country in
             self?.covidDataViewModel.scope = .country(country)
+            self?.activateActivityIndicator()
             self?.getData()
             self?.updateFilterButton()
         }

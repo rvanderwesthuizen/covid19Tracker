@@ -15,7 +15,7 @@
 		C98CE4B626B288F1004282A4 /* CovidDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CE4B526B288F1004282A4 /* CovidDataViewModel.swift */; };
 		C9A6F9FC2697488300896BF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FB2697488300896BF9 /* AppDelegate.swift */; };
 		C9A6F9FE2697488300896BF9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FD2697488300896BF9 /* SceneDelegate.swift */; };
-		C9A6FA002697488300896BF9 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FF2697488300896BF9 /* MainViewController.swift */; };
+		C9A6FA002697488300896BF9 /* CovidDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FF2697488300896BF9 /* CovidDataViewController.swift */; };
 		C9A6FA032697488300896BF9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A6FA012697488300896BF9 /* Main.storyboard */; };
 		C9A6FA052697488700896BF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9A6FA042697488700896BF9 /* Assets.xcassets */; };
 		C9A6FA082697488700896BF9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A6FA062697488700896BF9 /* LaunchScreen.storyboard */; };
@@ -47,7 +47,7 @@
 		C9A6F9F82697488300896BF9 /* Covid Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Covid Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A6F9FB2697488300896BF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9A6F9FD2697488300896BF9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C9A6F9FF2697488300896BF9 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		C9A6F9FF2697488300896BF9 /* CovidDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CovidDataViewController.swift; sourceTree = "<group>"; };
 		C9A6FA022697488300896BF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C9A6FA042697488700896BF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9A6FA072697488700896BF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -166,7 +166,7 @@
 		C9BACFA526980A0200E35A98 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C9A6F9FF2697488300896BF9 /* MainViewController.swift */,
+				C9A6F9FF2697488300896BF9 /* CovidDataViewController.swift */,
 				C9A6FA162697545100896BF9 /* FilterTableViewController.swift */,
 				C918223326A1525F00144137 /* DefaultCountrySelectionTableViewController.swift */,
 			);
@@ -325,7 +325,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A6FA002697488300896BF9 /* MainViewController.swift in Sources */,
+				C9A6FA002697488300896BF9 /* CovidDataViewController.swift in Sources */,
 				C98CE4B626B288F1004282A4 /* CovidDataViewModel.swift in Sources */,
 				C918223926A92E9100144137 /* CountryViewModel.swift in Sources */,
 				C9A6F9FC2697488300896BF9 /* AppDelegate.swift in Sources */,
