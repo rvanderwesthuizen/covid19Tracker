@@ -71,18 +71,28 @@ class MainViewController: UIViewController {
             entries.append(BarChartDataEntry(x: Double(index), y: Double(covidDataViewModel.graphDataInstance(at: index))))
         }
         
+        if entries.count == 0 {
+            showAlert()
+        }
         let dataSet = BarChartDataSet(entries: entries)
         formatDataSet(dataSet)
         formatXAxis()
         let chartData: BarChartData = BarChartData(dataSet: dataSet)
         
         chartView.data = chartData
+        
+    }
+    
+    private func showAlert() {
+        let alertController = UIAlertController(title: "", message: "\(covidDataViewModel.selectedCountryText) has no cases", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        present(alertController, animated: true)
     }
     
     private func formatGraph() {
         chartView.doubleTapToZoomEnabled = false
         chartView.zoom(scaleX: 5, scaleY: 1, x: 0, y: 0)
-        chartView.noDataText = "No Cases for: \(covidDataViewModel.selectedCountryText)"
         chartView.rightAxis.enabled = false
         chartView.leftAxis.axisMinimum = 0
         chartView.extraBottomOffset = 30
