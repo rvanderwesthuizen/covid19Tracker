@@ -8,7 +8,7 @@
 import UIKit
 import Charts
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
     private let covidDataViewModel = CovidDataViewModel()
     
     private lazy var filterButton: UIBarButtonItem = {
@@ -30,11 +30,9 @@ class ViewController: UIViewController {
     }()
     
     //MARK: - @IBOutlets
-    @IBOutlet weak var chartView: BarChartView!
-    @IBOutlet weak var activeButton: UIButton!
-    @IBOutlet weak var confirmedButton: UIButton!
-    @IBOutlet weak var deathsButton: UIButton!
-    @IBOutlet weak var recoveredButton: UIButton!
+    @IBOutlet private weak var chartView: BarChartView!
+    @IBOutlet private weak var segmentedController: UISegmentedControl!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,18 +73,32 @@ class ViewController: UIViewController {
             entries.append(BarChartDataEntry(x: Double(index), y: Double(covidDataViewModel.graphDataInstance(at: index))))
         }
         
+        if entries.count == 0 {
+            showAlert()
+            
+            segmentedController.isEnabled = false
+        } else {
+            segmentedController.isEnabled = true
+        }
         let dataSet = BarChartDataSet(entries: entries)
         formatDataSet(dataSet)
         formatXAxis()
         let chartData: BarChartData = BarChartData(dataSet: dataSet)
         
         chartView.data = chartData
+        
+    }
+    
+    private func showAlert() {
+        let alertController = UIAlertController(title: "", message: "\(covidDataViewModel.selectedCountryText) has no cases", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        present(alertController, animated: true)
     }
     
     private func formatGraph() {
         chartView.doubleTapToZoomEnabled = false
         chartView.zoom(scaleX: 5, scaleY: 1, x: 0, y: 0)
-        chartView.noDataText = "No Cases for: \(covidDataViewModel.selectedCountryText)"
         chartView.rightAxis.enabled = false
         chartView.leftAxis.axisMinimum = 0
         chartView.extraBottomOffset = 30
@@ -121,32 +133,20 @@ class ViewController: UIViewController {
         present(navVC, animated: true)
     }
     
-    @IBAction func radioButtonsTapped(_ sender: UIButton) {
-        deselectAllButtons()
-        switch sender.titleLabel?.text {
-        case "Active":
+    @IBAction func didChangeSegment(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
             covidDataViewModel.selectedStatus = .active
-            activeButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
-        case "Confirmed":
+        case 1:
             covidDataViewModel.selectedStatus = .confirmed
-            confirmedButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
-        case "Deaths":
+        case 2:
             covidDataViewModel.selectedStatus = .deaths
-            deathsButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
-        case "Recovered":
+        case 3:
             covidDataViewModel.selectedStatus = .recovered
-            recoveredButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
         default:
             covidDataViewModel.selectedStatus = .active
         }
         
         self.reloadGraphData()
-    }
-    
-    private func deselectAllButtons() {
-        activeButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-        confirmedButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-        deathsButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-        recoveredButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
     }
 }

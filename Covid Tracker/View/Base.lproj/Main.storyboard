@@ -8,93 +8,63 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Covid_Tracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="Covid_Tracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fvW-fo-x24" customClass="BarChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="88" width="390" height="618"/>
-                            </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="48" translatesAutoresizingMaskIntoConstraints="NO" id="raw-rI-y46">
-                                <rect key="frame" x="0.0" y="714" width="390" height="96"/>
+                                <rect key="frame" x="0.0" y="119" width="390" height="691"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="8XS-4D-8Ay">
-                                        <rect key="frame" x="83" y="0.0" width="224" height="24"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ju1-wO-BlP">
-                                                <rect key="frame" x="0.0" y="0.0" width="74" height="24"/>
-                                                <state key="normal" title="Active" image="checked">
-                                                    <color key="titleColor" systemColor="labelColor"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="radioButtonsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yro-qM-i23"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MVs-mI-hHz">
-                                                <rect key="frame" x="115" y="0.0" width="109" height="24"/>
-                                                <state key="normal" title="Confirmed" image="unchecked">
-                                                    <color key="titleColor" systemColor="labelColor"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="radioButtonsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sWX-eT-kWO"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="36" translatesAutoresizingMaskIntoConstraints="NO" id="Kme-9P-Odx">
-                                        <rect key="frame" x="81.666666666666686" y="72" width="227" height="24"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lbw-mI-NwU">
-                                                <rect key="frame" x="0.0" y="0.0" width="81" height="24"/>
-                                                <state key="normal" title="Deaths" image="unchecked">
-                                                    <color key="titleColor" systemColor="labelColor"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="radioButtonsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BRj-OH-Pb2"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVq-9m-qox">
-                                                <rect key="frame" x="117" y="0.0" width="110" height="24"/>
-                                                <state key="normal" title="Recovered" image="unchecked">
-                                                    <color key="titleColor" systemColor="labelColor"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="radioButtonsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WMn-RD-862"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="gID-x8-sum">
+                                        <rect key="frame" x="176.66666666666666" y="327" width="37" height="37"/>
+                                    </activityIndicatorView>
                                 </subviews>
-                            </stackView>
+                                <constraints>
+                                    <constraint firstItem="gID-x8-sum" firstAttribute="centerX" secondItem="fvW-fo-x24" secondAttribute="centerX" id="HG9-CG-oaz"/>
+                                    <constraint firstItem="gID-x8-sum" firstAttribute="centerY" secondItem="fvW-fo-x24" secondAttribute="centerY" id="PTK-fG-JOM"/>
+                                </constraints>
+                            </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xht-tJ-XKg">
+                                <rect key="frame" x="16" y="88" width="358" height="32"/>
+                                <segments>
+                                    <segment title="Active"/>
+                                    <segment title="Confirmed"/>
+                                    <segment title="Deaths"/>
+                                    <segment title="Recovered"/>
+                                </segments>
+                                <color key="selectedSegmentTintColor" systemColor="systemBlueColor"/>
+                                <connections>
+                                    <action selector="didChangeSegment:" destination="BYZ-38-t0r" eventType="valueChanged" id="CZq-Qq-dPI"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="fvW-fo-x24" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="20e-9g-JhB"/>
-                            <constraint firstItem="fvW-fo-x24" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="4wc-fd-mIF"/>
-                            <constraint firstItem="raw-rI-y46" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Iyl-qH-YVc"/>
-                            <constraint firstItem="raw-rI-y46" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="R0i-Zv-osg"/>
-                            <constraint firstItem="raw-rI-y46" firstAttribute="top" secondItem="fvW-fo-x24" secondAttribute="bottom" constant="8" id="YzU-c5-pMN"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="raw-rI-y46" secondAttribute="trailing" id="jke-KG-CvE"/>
-                            <constraint firstItem="fvW-fo-x24" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="nCr-ZY-ICZ"/>
+                            <constraint firstItem="fvW-fo-x24" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="7WH-yO-z3P"/>
+                            <constraint firstItem="xht-tJ-XKg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="EvV-5U-Oqk"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xht-tJ-XKg" secondAttribute="trailing" constant="16" id="KeE-ee-Zmi"/>
+                            <constraint firstItem="fvW-fo-x24" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="T3C-mt-pmQ"/>
+                            <constraint firstItem="xht-tJ-XKg" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="U67-Kc-Spj"/>
+                            <constraint firstItem="fvW-fo-x24" firstAttribute="top" secondItem="xht-tJ-XKg" secondAttribute="bottom" id="gqB-kl-Xfc"/>
+                            <constraint firstItem="fvW-fo-x24" firstAttribute="top" secondItem="xht-tJ-XKg" secondAttribute="bottom" id="klV-ET-DqA"/>
+                            <constraint firstItem="fvW-fo-x24" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="neX-K2-BIL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1OI-LU-qUT"/>
                     <connections>
-                        <outlet property="activeButton" destination="Ju1-wO-BlP" id="KAV-De-SaL"/>
+                        <outlet property="activityIndicator" destination="gID-x8-sum" id="x0Z-dv-I1q"/>
                         <outlet property="chartView" destination="fvW-fo-x24" id="oq1-2f-ORe"/>
-                        <outlet property="confirmedButton" destination="MVs-mI-hHz" id="O9y-zU-gca"/>
-                        <outlet property="deathsButton" destination="Lbw-mI-NwU" id="BtI-bd-CgL"/>
-                        <outlet property="recoveredButton" destination="LVq-9m-qox" id="IPg-QO-UB2"/>
+                        <outlet property="segmentedController" destination="xht-tJ-XKg" id="xnV-VU-vfd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1137" y="118"/>
+            <point key="canvasLocation" x="926.15384615384608" y="118.00947867298578"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="FVJ-cv-J3n">
@@ -117,11 +87,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="checked" width="24" height="24"/>
-        <image name="unchecked" width="24" height="24"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
