@@ -49,6 +49,7 @@
                     <navigationItem key="navigationItem" id="1OI-LU-qUT"/>
                     <connections>
                         <outlet property="chartView" destination="fvW-fo-x24" id="oq1-2f-ORe"/>
+                        <outlet property="segmentedController" destination="xht-tJ-XKg" id="xnV-VU-vfd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -31,6 +31,7 @@ class MainViewController: UIViewController {
     
     //MARK: - @IBOutlets
     @IBOutlet weak var chartView: BarChartView!
+    @IBOutlet weak var segmentedController: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +74,10 @@ class MainViewController: UIViewController {
         
         if entries.count == 0 {
             showAlert()
+            
+            segmentedController.isEnabled = false
+        } else {
+            segmentedController.isEnabled = true
         }
         let dataSet = BarChartDataSet(entries: entries)
         formatDataSet(dataSet)
