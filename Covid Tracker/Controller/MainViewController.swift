@@ -30,8 +30,9 @@ class MainViewController: UIViewController {
     }()
     
     //MARK: - @IBOutlets
-    @IBOutlet weak var chartView: BarChartView!
-    @IBOutlet weak var segmentedController: UISegmentedControl!
+    @IBOutlet private weak var chartView: BarChartView!
+    @IBOutlet private weak var segmentedController: UISegmentedControl!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

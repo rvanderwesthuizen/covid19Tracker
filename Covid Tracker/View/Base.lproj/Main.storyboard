@@ -18,6 +18,15 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fvW-fo-x24" customClass="BarChartView" customModule="Charts">
                                 <rect key="frame" x="0.0" y="119" width="390" height="691"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="gID-x8-sum">
+                                        <rect key="frame" x="176.66666666666666" y="327" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="gID-x8-sum" firstAttribute="centerX" secondItem="fvW-fo-x24" secondAttribute="centerX" id="HG9-CG-oaz"/>
+                                    <constraint firstItem="gID-x8-sum" firstAttribute="centerY" secondItem="fvW-fo-x24" secondAttribute="centerY" id="PTK-fG-JOM"/>
+                                </constraints>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xht-tJ-XKg">
                                 <rect key="frame" x="16" y="88" width="358" height="32"/>
@@ -48,6 +57,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="1OI-LU-qUT"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="gID-x8-sum" id="x0Z-dv-I1q"/>
                         <outlet property="chartView" destination="fvW-fo-x24" id="oq1-2f-ORe"/>
                         <outlet property="segmentedController" destination="xht-tJ-XKg" id="xnV-VU-vfd"/>
                     </connections>
