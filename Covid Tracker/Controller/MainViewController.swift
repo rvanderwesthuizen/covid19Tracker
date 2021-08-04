@@ -8,7 +8,7 @@
 import UIKit
 import Charts
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
     private let covidDataViewModel = CovidDataViewModel()
     
     private lazy var filterButton: UIBarButtonItem = {
@@ -31,10 +31,6 @@ class ViewController: UIViewController {
     
     //MARK: - @IBOutlets
     @IBOutlet weak var chartView: BarChartView!
-    @IBOutlet weak var activeButton: UIButton!
-    @IBOutlet weak var confirmedButton: UIButton!
-    @IBOutlet weak var deathsButton: UIButton!
-    @IBOutlet weak var recoveredButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,32 +117,20 @@ class ViewController: UIViewController {
         present(navVC, animated: true)
     }
     
-    @IBAction func radioButtonsTapped(_ sender: UIButton) {
-        deselectAllButtons()
-        switch sender.titleLabel?.text {
-        case "Active":
+    @IBAction func didChangeSegment(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
             covidDataViewModel.selectedStatus = .active
-            activeButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
-        case "Confirmed":
+        case 1:
             covidDataViewModel.selectedStatus = .confirmed
-            confirmedButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
-        case "Deaths":
+        case 2:
             covidDataViewModel.selectedStatus = .deaths
-            deathsButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
-        case "Recovered":
+        case 3:
             covidDataViewModel.selectedStatus = .recovered
-            recoveredButton.setImage(#imageLiteral(resourceName: "checked"), for: .normal)
         default:
             covidDataViewModel.selectedStatus = .active
         }
         
         self.reloadGraphData()
-    }
-    
-    private func deselectAllButtons() {
-        activeButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-        confirmedButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-        deathsButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
-        recoveredButton.setImage(#imageLiteral(resourceName: "unchecked"), for: .normal)
     }
 }
