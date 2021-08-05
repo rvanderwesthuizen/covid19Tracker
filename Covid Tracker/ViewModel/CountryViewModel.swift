@@ -21,13 +21,22 @@ class CountryViewModel {
     }
     
     func getCountries(completion: @escaping () -> Void) {
-        apiCaller.getCountries { result in
-            switch result {
-            case .success(let countries):
-                self.setupDictionary(countries.sorted(by: { $0.name < $1.name }))
-                completion()
-            case .failure(let error):
-                print(error)
+        if let data = try? Data(contentsOf: Constants.countryPlistDataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                self.setupDictionary(try decoder.decode([CountryModel].self, from: data).sorted(by: { $0.name < $1.name }))
+            } catch {
+                print("\(error)")
+            }
+        } else {
+            apiCaller.getCountries { result in
+                switch result {
+                case .success(let countries):
+                    self.setupDictionary(countries.sorted(by: { $0.name < $1.name }))
+                    completion()
+                case .failure(let error):
+                    print(error)
+                }
             }
         }
     }

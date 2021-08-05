@@ -16,7 +16,6 @@ class CovidDataViewModel {
     }
     
     private let defaults = UserDefaults()
-    private let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(Constants.countriesPlist)
     
     private lazy var apiCaller = ApiCaller()
     private var data: [CovidDataResult] = []
@@ -101,7 +100,7 @@ class CovidDataViewModel {
         
         do {
             let data = try encoder.encode(countries)
-            try data.write(to: self.dataFilePath!)
+            try data.write(to: Constants.countryPlistDataFilePath!)
         } catch {
             print("\(error)")
         }

@@ -12,5 +12,5 @@ enum Constants {
     static let baseURLString = "https://api.covid19api.com/country/"
     static let defaultCountryNameKey = "DefaultCountryName"
     static let defaultCountrySlugKey = "DefaultCountrySlug"
-    static let countriesPlist = "Countries.plist"
+    static let countryPlistDataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Countries.plist")
 }
