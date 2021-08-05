@@ -43,12 +43,19 @@ class CovidDataViewController: UIViewController {
         navigationItem.rightBarButtonItem = filterButton
         navigationItem.leftBarButtonItem = settingsButton
         
-        locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        
+        if locationManager.authorizationStatus == .denied {
+            covidDataViewModel.checkForDefault()
+            getData()
+        }
+        
         activateActivityIndicator()
         
         filterButton.tintColor = .darkGray
         settingsButton.tintColor = .darkGray
+        self.formatGraph()
     }
     
     //MARK: - Filter Button
@@ -68,6 +75,7 @@ class CovidDataViewController: UIViewController {
             DispatchQueue.main.async {
                 self.reloadGraphData()
                 self.activityIndicator.stopAnimating()
+                self.updateFilterButton()
             }
         }
     }
@@ -168,9 +176,13 @@ class CovidDataViewController: UIViewController {
 }
 
 extension CovidDataViewController: CLLocationManagerDelegate {
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status != .denied && status != .notDetermined {
             locationManager.requestLocation()
+        } else {
+            covidDataViewModel.checkForDefault()
+            getData()
         }
     }
     
@@ -185,8 +197,6 @@ extension CovidDataViewController: CLLocationManagerDelegate {
                 self.showAlertWhenLocationNotFound()
             }
             self.getData()
-            self.updateFilterButton()
-            self.formatGraph()
         }
     }
 }
