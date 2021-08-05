@@ -10,11 +10,11 @@ import Foundation
 struct ApiCaller {
     
     enum DataScope {
-        case defaultCountry(CountryModel)
-        case country(CountryModel)
+        case defaultCountry(Country)
+        case country(Country)
     }
     
-    public mutating func getCountries(completion: @escaping (Result<[CountryModel], Error>) -> Void){
+    public mutating func getCountries(completion: @escaping (Result<[Country], Error>) -> Void){
         if let url = Constants.allCountriesURL {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { data, _, error in
@@ -23,7 +23,7 @@ struct ApiCaller {
                 }
                 if let safeData = data {
                     do {
-                        let result = try JSONDecoder().decode([CountryModel].self, from: safeData)
+                        let result = try JSONDecoder().decode([Country].self, from: safeData)
                         let countries = result
                         completion(.success(countries))
                     } catch {
@@ -61,7 +61,7 @@ struct ApiCaller {
 
 //MARK: - Models
 
-struct CountryModel: Codable {
+struct Country: Codable {
     let name: String
     let slug: String
     

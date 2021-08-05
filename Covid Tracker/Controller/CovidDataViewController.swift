@@ -7,9 +7,11 @@
 
 import UIKit
 import Charts
+import CoreLocation
 
 class CovidDataViewController: UIViewController {
     private let covidDataViewModel = CovidDataViewModel()
+    private let locationManager = CLLocationManager()
     
     private lazy var filterButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -41,15 +43,12 @@ class CovidDataViewController: UIViewController {
         navigationItem.rightBarButtonItem = filterButton
         navigationItem.leftBarButtonItem = settingsButton
         
-        covidDataViewModel.checkForDefault()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        activateActivityIndicator()
         
         filterButton.tintColor = .darkGray
         settingsButton.tintColor = .darkGray
-        updateFilterButton()
-        
-        activateActivityIndicator()
-        getData()
-        formatGraph()
     }
     
     //MARK: - Filter Button
@@ -83,7 +82,7 @@ class CovidDataViewController: UIViewController {
         }
         
         if entries.count == 0 {
-            showAlert()
+            showAlertForNoCases()
             
             segmentedController.isEnabled = false
         } else {
@@ -98,8 +97,15 @@ class CovidDataViewController: UIViewController {
         
     }
     
-    private func showAlert() {
+    private func showAlertForNoCases() {
         let alertController = UIAlertController(title: "", message: "\(covidDataViewModel.selectedCountryText) has no cases", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        present(alertController, animated: true)
+    }
+    
+    private func showAlertWhenLocationNotFound() {
+        let alertController = UIAlertController(title: "", message: "We could not find your current country, will display the default country selected", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
         present(alertController, animated: true)
@@ -158,5 +164,29 @@ class CovidDataViewController: UIViewController {
         }
         
         self.reloadGraphData()
+    }
+}
+
+extension CovidDataViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status != .denied && status != .notDetermined {
+            locationManager.requestLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error: \(error.localizedDescription)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = manager.location else { return }
+        covidDataViewModel.geoLocation(from: location) {
+            if !self.covidDataViewModel.found {
+                self.showAlertWhenLocationNotFound()
+            }
+            self.getData()
+            self.updateFilterButton()
+            self.formatGraph()
+        }
     }
 }

@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import CoreLocation
+import MapKit
 
 class CovidDataViewModel {
     enum statusSelector {
@@ -20,6 +22,7 @@ class CovidDataViewModel {
     private lazy var apiCaller = ApiCaller()
     private var data: [CovidDataResult] = []
     var dates: [String] = []
+    var found: Bool = false
     
     var set: [CovidDataResult] {
         data.suffix(31)
@@ -34,7 +37,7 @@ class CovidDataViewModel {
     
     var selectedStatus: statusSelector = .active
     
-    var scope: ApiCaller.DataScope = .defaultCountry(CountryModel(name: "South Africa", slug: "south-africa"))
+    var scope: ApiCaller.DataScope = .defaultCountry(Country(name: "South Africa", slug: "south-africa"))
     
     func graphDataInstance(at index: Int) -> Int{
         switch selectedStatus {
@@ -68,7 +71,7 @@ class CovidDataViewModel {
     
     func checkForDefault() {
         if let defaultName = defaults.string(forKey: Constants.defaultCountryNameKey), let defaultSlug = defaults.string(forKey: Constants.defaultCountrySlugKey) {
-            scope = .defaultCountry(CountryModel(name: defaultName, slug: defaultSlug))
+            scope = .defaultCountry(Country(name: defaultName, slug: defaultSlug))
         }
     }
     
@@ -84,25 +87,35 @@ class CovidDataViewModel {
         }
     }
     
-    func getCountries() {
-        apiCaller.getCountries { result in
-            switch result {
-            case .success(let countries):
-                self.writeToPlist(data: countries)
-            case .failure(let error):
-                print(error)
+    func geoLocation(from location: CLLocation, completion: @escaping () -> Void) {
+        CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
+            if error == nil {
+                guard let country = placemarks?.first?.country else { return }
+                self.setDefaultBasedOnLocation(country)
+                completion()
+            } else {
+                print(error!)
             }
         }
     }
     
-    func writeToPlist(data countries: [CountryModel]) {
-        let encoder = PropertyListEncoder()
-        
-        do {
-            let data = try encoder.encode(countries)
-            try data.write(to: Constants.countryPlistDataFilePath!)
-        } catch {
-            print("\(error)")
+    func setDefaultBasedOnLocation(_ location: String) {
+        if let data = try? Data(contentsOf: Constants.countryPlistDataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                let countries = try decoder.decode([Country].self, from: data)
+                countries.forEach({ country in
+                    if country.name == location {
+                        found = true
+                        scope = .defaultCountry(Country(name: country.name, slug: country.slug))
+                    }
+                })
+                if !found {
+                    checkForDefault()
+                }
+            } catch {
+                print("\(error)")
+            }
         }
     }
 }
