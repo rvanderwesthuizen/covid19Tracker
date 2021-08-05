@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct Constants {
+enum Constants {
     static let allCountriesURL = URL(string: "https://api.covid19api.com/countries")
     static let baseURLString = "https://api.covid19api.com/country/"
     static let defaultCountryNameKey = "DefaultCountryName"
     static let defaultCountrySlugKey = "DefaultCountrySlug"
+    static let countryPlistDataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Countries.plist")
 }

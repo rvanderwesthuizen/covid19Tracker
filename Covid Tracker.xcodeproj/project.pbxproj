@@ -13,14 +13,15 @@
 		C918223926A92E9100144137 /* CountryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918223826A92E9100144137 /* CountryViewModel.swift */; };
 		C918224126A9419700144137 /* Covid_TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C918224026A9419700144137 /* Covid_TrackerTests.swift */; };
 		C98CE4B626B288F1004282A4 /* CovidDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98CE4B526B288F1004282A4 /* CovidDataViewModel.swift */; };
-		C9A6F9FC2697488300896BF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FB2697488300896BF9 /* AppDelegate.swift */; };
 		C9A6F9FE2697488300896BF9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FD2697488300896BF9 /* SceneDelegate.swift */; };
-		C9A6FA002697488300896BF9 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FF2697488300896BF9 /* MainViewController.swift */; };
+		C9A6FA002697488300896BF9 /* CovidDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6F9FF2697488300896BF9 /* CovidDataViewController.swift */; };
 		C9A6FA032697488300896BF9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A6FA012697488300896BF9 /* Main.storyboard */; };
 		C9A6FA052697488700896BF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9A6FA042697488700896BF9 /* Assets.xcassets */; };
 		C9A6FA082697488700896BF9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9A6FA062697488700896BF9 /* LaunchScreen.storyboard */; };
 		C9A6FA10269748F700896BF9 /* ApiCaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6FA0F269748F700896BF9 /* ApiCaller.swift */; };
 		C9A6FA172697545100896BF9 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A6FA162697545100896BF9 /* FilterTableViewController.swift */; };
+		C9AB361A26BBD86F001924D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB361926BBD86F001924D1 /* AppDelegate.swift */; };
+		C9AB361C26BBDB04001924D1 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB361B26BBDB04001924D1 /* Cache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,15 +46,16 @@
 		C918224226A9419700144137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C98CE4B526B288F1004282A4 /* CovidDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CovidDataViewModel.swift; sourceTree = "<group>"; };
 		C9A6F9F82697488300896BF9 /* Covid Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Covid Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9A6F9FB2697488300896BF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9A6F9FD2697488300896BF9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C9A6F9FF2697488300896BF9 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		C9A6F9FF2697488300896BF9 /* CovidDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CovidDataViewController.swift; sourceTree = "<group>"; };
 		C9A6FA022697488300896BF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C9A6FA042697488700896BF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9A6FA072697488700896BF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9A6FA092697488700896BF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9A6FA0F269748F700896BF9 /* ApiCaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCaller.swift; sourceTree = "<group>"; };
 		C9A6FA162697545100896BF9 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
+		C9AB361926BBD86F001924D1 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C9AB361B26BBDB04001924D1 /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,7 +135,7 @@
 		C9A6F9FA2697488300896BF9 /* Covid Tracker */ = {
 			isa = PBXGroup;
 			children = (
-				C9A6F9FB2697488300896BF9 /* AppDelegate.swift */,
+				C9AB361926BBD86F001924D1 /* AppDelegate.swift */,
 				C9A6F9FD2697488300896BF9 /* SceneDelegate.swift */,
 				C9A6FA112697491100896BF9 /* Model */,
 				C9BACFA4269809F100E35A98 /* View */,
@@ -151,6 +153,7 @@
 			children = (
 				C9A6FA0F269748F700896BF9 /* ApiCaller.swift */,
 				C918223526A928D600144137 /* Constants.swift */,
+				C9AB361B26BBDB04001924D1 /* Cache.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -166,7 +169,7 @@
 		C9BACFA526980A0200E35A98 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C9A6F9FF2697488300896BF9 /* MainViewController.swift */,
+				C9A6F9FF2697488300896BF9 /* CovidDataViewController.swift */,
 				C9A6FA162697545100896BF9 /* FilterTableViewController.swift */,
 				C918223326A1525F00144137 /* DefaultCountrySelectionTableViewController.swift */,
 			);
@@ -325,14 +328,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A6FA002697488300896BF9 /* MainViewController.swift in Sources */,
+				C9A6FA002697488300896BF9 /* CovidDataViewController.swift in Sources */,
 				C98CE4B626B288F1004282A4 /* CovidDataViewModel.swift in Sources */,
 				C918223926A92E9100144137 /* CountryViewModel.swift in Sources */,
-				C9A6F9FC2697488300896BF9 /* AppDelegate.swift in Sources */,
 				C9A6F9FE2697488300896BF9 /* SceneDelegate.swift in Sources */,
 				C9A6FA10269748F700896BF9 /* ApiCaller.swift in Sources */,
 				C918223626A928D600144137 /* Constants.swift in Sources */,
+				C9AB361C26BBDB04001924D1 /* Cache.swift in Sources */,
 				C9A6FA172697545100896BF9 /* FilterTableViewController.swift in Sources */,
+				C9AB361A26BBD86F001924D1 /* AppDelegate.swift in Sources */,
 				C918223426A1525F00144137 /* DefaultCountrySelectionTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

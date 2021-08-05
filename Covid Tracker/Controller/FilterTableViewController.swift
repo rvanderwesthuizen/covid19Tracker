@@ -8,7 +8,7 @@
 import UIKit
 
 class FilterTableViewController: UITableViewController {
-    public var completion: ((CountryModel) -> Void)?
+    public var completion: ((Country) -> Void)?
     private let countryViewModel = CountryViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()

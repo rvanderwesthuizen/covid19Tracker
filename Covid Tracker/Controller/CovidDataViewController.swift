@@ -7,9 +7,11 @@
 
 import UIKit
 import Charts
+import CoreLocation
 
-class MainViewController: UIViewController {
+class CovidDataViewController: UIViewController {
     private let covidDataViewModel = CovidDataViewModel()
+    private let locationManager = CLLocationManager()
     
     private lazy var filterButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -41,13 +43,12 @@ class MainViewController: UIViewController {
         navigationItem.rightBarButtonItem = filterButton
         navigationItem.leftBarButtonItem = settingsButton
         
-        covidDataViewModel.checkForDefault()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        activateActivityIndicator()
         
         filterButton.tintColor = .darkGray
         settingsButton.tintColor = .darkGray
-        updateFilterButton()
-        getData()
-        formatGraph()
     }
     
     //MARK: - Filter Button
@@ -55,11 +56,18 @@ class MainViewController: UIViewController {
         filterButton.title = covidDataViewModel.selectedCountryText
     }
     
+    //MARK: - Activity Indicator
+    func activateActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.startAnimating()
+    }
+    
     //MARK: - Get covid data
     private func getData() {
         covidDataViewModel.getData {
             DispatchQueue.main.async {
                 self.reloadGraphData()
+                self.activityIndicator.stopAnimating()
             }
         }
     }
@@ -74,7 +82,7 @@ class MainViewController: UIViewController {
         }
         
         if entries.count == 0 {
-            showAlert()
+            showAlertForNoCases()
             
             segmentedController.isEnabled = false
         } else {
@@ -89,8 +97,15 @@ class MainViewController: UIViewController {
         
     }
     
-    private func showAlert() {
+    private func showAlertForNoCases() {
         let alertController = UIAlertController(title: "", message: "\(covidDataViewModel.selectedCountryText) has no cases", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        present(alertController, animated: true)
+    }
+    
+    private func showAlertWhenLocationNotFound() {
+        let alertController = UIAlertController(title: "", message: "We could not find your current country, will display the default country selected", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
         present(alertController, animated: true)
@@ -126,6 +141,7 @@ class MainViewController: UIViewController {
         let filterVC = FilterTableViewController()
         filterVC.completion = { [weak self] country in
             self?.covidDataViewModel.scope = .country(country)
+            self?.activateActivityIndicator()
             self?.getData()
             self?.updateFilterButton()
         }
@@ -148,5 +164,29 @@ class MainViewController: UIViewController {
         }
         
         self.reloadGraphData()
+    }
+}
+
+extension CovidDataViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status != .denied && status != .notDetermined {
+            locationManager.requestLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error: \(error.localizedDescription)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = manager.location else { return }
+        covidDataViewModel.geoLocation(from: location) {
+            if !self.covidDataViewModel.found {
+                self.showAlertWhenLocationNotFound()
+            }
+            self.getData()
+            self.updateFilterButton()
+            self.formatGraph()
+        }
     }
 }
