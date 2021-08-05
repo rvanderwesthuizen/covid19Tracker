@@ -15,8 +15,10 @@ class CovidDataViewModel {
         case recovered
     }
     
+    private let defaults = UserDefaults()
+    private let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(Constants.countriesPlist)
+    
     private lazy var apiCaller = ApiCaller()
-    private lazy var defaults = UserDefaults()
     private var data: [CovidDataResult] = []
     var dates: [String] = []
     
@@ -80,6 +82,28 @@ class CovidDataViewModel {
             case .failure(let error):
                 print(error)
             }
+        }
+    }
+    
+    func getCountries() {
+        apiCaller.getCountries { result in
+            switch result {
+            case .success(let countries):
+                self.writeToPlist(data: countries)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func writeToPlist(data countries: [CountryModel]) {
+        let encoder = PropertyListEncoder()
+        
+        do {
+            let data = try encoder.encode(countries)
+            try data.write(to: self.dataFilePath!)
+        } catch {
+            print("\(error)")
         }
     }
 }
