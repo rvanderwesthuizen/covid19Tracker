@@ -9,7 +9,7 @@ import UIKit
 
 class FilterTableViewController: UITableViewController {
     public var completion: ((Country) -> Void)?
-    private let countryViewModel = CountryViewModel()
+    private let countryViewModel = FilterTableViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground

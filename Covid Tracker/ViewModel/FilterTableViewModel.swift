@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CountryViewModel {
+class FilterTableViewModel {
     private lazy var apiCaller = ApiCaller()
     private lazy var defaults = UserDefaults()
     private var sections = [Section]()
@@ -58,11 +58,6 @@ class CountryViewModel {
         let groupedDictionary = Dictionary(grouping: countries, by: {String($0.name.prefix(1))})
         let keys = groupedDictionary.keys.sorted()
         sections = keys.map{ Section(letter: $0, countryNames: groupedDictionary[$0]!) }
-    }
-    
-    func setDefaults(_ country: Country) {
-        defaults.set(country.name, forKey: Constants.defaultCountryNameKey)
-        defaults.set(country.slug, forKey: Constants.defaultCountrySlugKey)
     }
     
     struct Section {

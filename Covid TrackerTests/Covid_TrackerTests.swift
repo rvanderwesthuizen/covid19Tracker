@@ -9,8 +9,7 @@ import XCTest
 @testable import Covid_Tracker
 
 class Covid_TrackerTests: XCTestCase {
-    let countryViewModel = CountryViewModel()
-    let covidDataViewModel = CovidDataViewModel()
+    let countryViewModel = FilterTableViewModel()
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -20,7 +19,6 @@ class Covid_TrackerTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    //MARK: - CountryViewModelTests
     func testIfCountryViewModelGetCountriesFunctionCreateASectionsListOf248() {
         countryViewModel.getCountries {
             XCTAssertEqual(self.countryViewModel.counts, 248)
@@ -54,24 +52,6 @@ class Covid_TrackerTests: XCTestCase {
     func testForFailureWhenIndexIsOutOfBounds() {
         if let _ = countryViewModel.country(at: -1), let _ = countryViewModel.letter(at: -1) {
             XCTFail()
-        }
-    }
-    
-    //MARK: - CovidDataViewModelTests
-    func testIfCovidDataViewModelSetDoesOnlyContain31Values() {
-        covidDataViewModel.getData {
-            XCTAssertEqual(self.covidDataViewModel.set.count, 31) 
-        }
-    }
-    
-    func testThatTheDatesDoNotContainTheTime() {
-        covidDataViewModel.getData {
-            self.covidDataViewModel.setupDates(at: 1)
-            self.covidDataViewModel.dates.forEach { date in
-                if date.contains("T00:00:00Z") {
-                    XCTFail()
-                }
-            }
         }
     }
     

@@ -8,7 +8,7 @@
 import UIKit
 
 class DefaultCountrySelectionTableViewController: UITableViewController {
-    private let countryViewModel = CountryViewModel()
+    private let countryViewModel = DefaultCountryViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
