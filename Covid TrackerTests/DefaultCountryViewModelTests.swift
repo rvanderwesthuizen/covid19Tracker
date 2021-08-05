@@ -19,13 +19,13 @@ class DefaultCountryViewModelTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    func testIfCountryViewModelGetCountriesFunctionCreateASectionsListOf248() {
+    func testIfDefaultCountryViewModelGetCountriesFunctionCreates25Sections() {
         countryViewModel.getCountries {
-            XCTAssertEqual(self.countryViewModel.counts, 248)
+            XCTAssertEqual(self.countryViewModel.counts, 25)
         }
     }
     
-    func testIfCountryViewModelDoesSetUserDefaults() {
+    func testIfDefaultCountryViewModelDoesSetUserDefaults() {
         let defaultCountry = Country(name: "Russian Federation", slug: "russia")
         var country: Country?
         countryViewModel.setDefaults(defaultCountry)

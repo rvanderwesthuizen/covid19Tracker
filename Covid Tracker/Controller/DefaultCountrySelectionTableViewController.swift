@@ -46,8 +46,15 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
         let selectedCountry = section.countryNames[indexPath.row]
         
         countryViewModel.setDefaults(selectedCountry)
+        showAlert()
+    }
+    
+    func showAlert() {
+        let alertController = UIAlertController(title: "", message: "Default country has been set", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in self.dismiss(animated: true, completion: nil)}))
         
-        dismiss(animated: true, completion: nil)
+        present(alertController, animated: true)
+        
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

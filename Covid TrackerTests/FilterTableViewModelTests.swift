@@ -19,9 +19,9 @@ class FilterTableViewModelTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    func testIfCountryViewModelGetCountriesFunctionCreateASectionsListOf248() {
+    func testIfFilterTableViewModelGetCountriesFunctionCreates25Sections() {
         countryViewModel.getCountries {
-            XCTAssertEqual(self.countryViewModel.counts, 248)
+            XCTAssertEqual(self.countryViewModel.counts, 25)
         }
     }
     
