@@ -15,7 +15,7 @@ class CovidDataViewController: UIViewController {
     
     private lazy var filterButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
-            title: "Filter",
+            title: "Filter".localized(),
             style: .done,
             target: self,
             action: #selector(tappedFilterButton))
@@ -24,7 +24,7 @@ class CovidDataViewController: UIViewController {
     
     private lazy var settingsButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
-            title: "Set default",
+            title: "Set default".localized(),
             style: .plain,
             target: self,
             action: #selector(tappedSettingButton))
@@ -39,17 +39,12 @@ class CovidDataViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Covid Tracker"
+        title = "Covid Tracker".localized()
         navigationItem.rightBarButtonItem = filterButton
         navigationItem.leftBarButtonItem = settingsButton
         
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        
-        if locationManager.authorizationStatus == .denied {
-            covidDataViewModel.checkForDefault()
-            getData()
-        }
+        checkLocationStatus()
         
         activateActivityIndicator()
         
@@ -106,15 +101,15 @@ class CovidDataViewController: UIViewController {
     }
     
     private func showAlertForNoCases() {
-        let alertController = UIAlertController(title: "", message: "\(covidDataViewModel.selectedCountryText) has no cases", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        let alertController = UIAlertController(title: "", message: covidDataViewModel.selectedCountryText + " has no cases".localized(), preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
         
         present(alertController, animated: true)
     }
     
     private func showAlertWhenLocationNotFound() {
-        let alertController = UIAlertController(title: "", message: "We could not find your current country, will display the default country selected", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        let alertController = UIAlertController(title: "", message: "We could not find your current country, will display the default country selected".localized(), preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: nil))
         
         present(alertController, animated: true)
     }
@@ -177,8 +172,24 @@ class CovidDataViewController: UIViewController {
 
 extension CovidDataViewController: CLLocationManagerDelegate {
     
+    func checkLocationStatus() {
+        if locationManager.authorizationStatus == .denied {
+            covidDataViewModel.checkForDefault()
+            getData()
+        } else if locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways {
+            if CLLocationManager.locationServicesEnabled() {
+                locationManager.requestLocation()
+            } else {
+                covidDataViewModel.checkForDefault()
+                getData()
+            }
+        } else {
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status != .denied && status != .notDetermined {
+        if status != .denied && status != .notDetermined && CLLocationManager.locationServicesEnabled(){
             locationManager.requestLocation()
         } else {
             covidDataViewModel.checkForDefault()

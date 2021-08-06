@@ -25,6 +25,8 @@
 		C9AB362026BBEE3E001924D1 /* CovidDataViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB361F26BBEE3E001924D1 /* CovidDataViewModelTests.swift */; };
 		C9AB362226BBEF8D001924D1 /* DefaultCountryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB362126BBEF8C001924D1 /* DefaultCountryViewModel.swift */; };
 		C9AB362426BBF14A001924D1 /* DefaultCountryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB362326BBF14A001924D1 /* DefaultCountryViewModelTests.swift */; };
+		C9AB362626BC259C001924D1 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB362526BC259C001924D1 /* Extentions.swift */; };
+		C9AB364026BDED58001924D1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9AB364226BDED58001924D1 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,9 @@
 		C9AB361F26BBEE3E001924D1 /* CovidDataViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CovidDataViewModelTests.swift; sourceTree = "<group>"; };
 		C9AB362126BBEF8C001924D1 /* DefaultCountryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCountryViewModel.swift; sourceTree = "<group>"; };
 		C9AB362326BBF14A001924D1 /* DefaultCountryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCountryViewModelTests.swift; sourceTree = "<group>"; };
+		C9AB362526BC259C001924D1 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
+		C9AB363F26BDED4E001924D1 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
+		C9AB364126BDED58001924D1 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +158,7 @@
 				C9A6FA042697488700896BF9 /* Assets.xcassets */,
 				C9A6FA062697488700896BF9 /* LaunchScreen.storyboard */,
 				C9A6FA092697488700896BF9 /* Info.plist */,
+				C9AB364226BDED58001924D1 /* Localizable.strings */,
 			);
 			path = "Covid Tracker";
 			sourceTree = "<group>";
@@ -163,6 +169,7 @@
 				C9A6FA0F269748F700896BF9 /* ApiCaller.swift */,
 				C918223526A928D600144137 /* Constants.swift */,
 				C9AB361B26BBDB04001924D1 /* Cache.swift */,
+				C9AB362526BC259C001924D1 /* Extentions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -250,6 +257,7 @@
 			knownRegions = (
 				en,
 				Base,
+				nl,
 			);
 			mainGroup = C9A6F9EF2697488300896BF9;
 			productRefGroup = C9A6F9F92697488300896BF9 /* Products */;
@@ -275,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9A6FA082697488700896BF9 /* LaunchScreen.storyboard in Resources */,
+				C9AB364026BDED58001924D1 /* Localizable.strings in Resources */,
 				C9A6FA052697488700896BF9 /* Assets.xcassets in Resources */,
 				C9A6FA032697488300896BF9 /* Main.storyboard in Resources */,
 			);
@@ -347,6 +356,7 @@
 				C918223626A928D600144137 /* Constants.swift in Sources */,
 				C9AB361C26BBDB04001924D1 /* Cache.swift in Sources */,
 				C9A6FA172697545100896BF9 /* FilterTableViewController.swift in Sources */,
+				C9AB362626BC259C001924D1 /* Extentions.swift in Sources */,
 				C9AB362226BBEF8D001924D1 /* DefaultCountryViewModel.swift in Sources */,
 				C9AB361A26BBD86F001924D1 /* AppDelegate.swift in Sources */,
 				C918223426A1525F00144137 /* DefaultCountrySelectionTableViewController.swift in Sources */,
@@ -368,6 +378,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				C9A6FA022697488300896BF9 /* Base */,
+				C9AB363F26BDED4E001924D1 /* nl */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -378,6 +389,14 @@
 				C9A6FA072697488700896BF9 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		C9AB364226BDED58001924D1 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9AB364126BDED58001924D1 /* nl */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -427,6 +446,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -488,6 +508,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

@@ -65,13 +65,3 @@ class FilterTableViewModel {
         let countryNames: [Country]
     }
 }
-
-extension Array {
-    public func element (at index: Int) -> Element? {
-        if indices.contains(index) {
-            return self[index]
-        } else {
-            return nil
-        }
-    }
-}

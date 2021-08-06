@@ -1,0 +1,12 @@
+
+/* Class = "UISegmentedControl"; xht-tJ-XKg.segmentTitles[0] = "Active"; ObjectID = "xht-tJ-XKg"; */
+"xht-tJ-XKg.segmentTitles[0]" = "Active";
+
+/* Class = "UISegmentedControl"; xht-tJ-XKg.segmentTitles[1] = "Confirmed"; ObjectID = "xht-tJ-XKg"; */
+"xht-tJ-XKg.segmentTitles[1]" = "Confirmed";
+
+/* Class = "UISegmentedControl"; xht-tJ-XKg.segmentTitles[2] = "Deaths"; ObjectID = "xht-tJ-XKg"; */
+"xht-tJ-XKg.segmentTitles[2]" = "Deaths";
+
+/* Class = "UISegmentedControl"; xht-tJ-XKg.segmentTitles[3] = "Recovered"; ObjectID = "xht-tJ-XKg"; */
+"xht-tJ-XKg.segmentTitles[3]" = "Recovered";

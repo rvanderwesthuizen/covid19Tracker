@@ -12,7 +12,7 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Select Default Country"
+        title = "Select Default Country".localized()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         getCountries()
     }
@@ -50,8 +50,8 @@ class DefaultCountrySelectionTableViewController: UITableViewController {
     }
     
     func showAlert() {
-        let alertController = UIAlertController(title: "", message: "Default country has been set", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in self.dismiss(animated: true, completion: nil)}))
+        let alertController = UIAlertController(title: "", message: "Default country has been set".localized(), preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: {_ in self.dismiss(animated: true, completion: nil)}))
         
         present(alertController, animated: true)
         

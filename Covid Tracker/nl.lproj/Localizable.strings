@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  Covid Tracker
+
+  Created by Ruan van der Westhuizen on 2021/08/07.
+  
+*/
+
+"Covid Tracker" = "Covid Volger";
+"Filter" = "Filter";
+"Set default" = "Standaard instellen";
+" has no cases" = " heeft geen gevallen";
+"We could not find your current country, will display the default country selected" = "We konden uw huidige land niet vinden, het geselecteerde standaardland wordt weergegeven";
+"Select Country" = "Selecteer land";
+"Select Default Country" = "Selecteer standaardland";
+"Default country has been set" = "Standaardland is ingesteld";
+"OK" = "Oke";
+"Active cases for: " = "Aktiewe gevalle vir: ";
+"Confirmed cases for: " = "Bevestigde gevalle vir: ";
+"Deaths for: " = "Sterftes vir: ";
+"Recoveries for: " = "Verhalings vir: ";

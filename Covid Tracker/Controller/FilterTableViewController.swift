@@ -13,7 +13,7 @@ class FilterTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = "Select Country"
+        title = "Select Country".localized()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         
         getCountries()

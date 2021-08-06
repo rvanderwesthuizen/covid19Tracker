@@ -55,13 +55,13 @@ class CovidDataViewModel {
     func dataSetLabel() -> String {
         switch selectedStatus {
         case .active:
-            return "Active cases for: \(selectedCountryText)"
+            return "Active cases for: ".localized() + selectedCountryText
         case .confirmed:
-            return "Confirmed cases for: \(selectedCountryText)"
+            return "Confirmed cases for: ".localized() + selectedCountryText
         case .deaths:
-            return "Deaths for: \(selectedCountryText)"
+            return "Deaths for: ".localized() + selectedCountryText
         case .recovered:
-            return "Recoveries for: \(selectedCountryText)"
+            return "Recoveries for: ".localized() + selectedCountryText
         }
     }
     
